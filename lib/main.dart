@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movies_app/views/movies/popular.dart';
 import './utils/tmdb_api.dart';
 import './models/movie.dart';
 
-void main() {
+Future main() async {
+  await dotenv.load(fileName: '.env');
   runApp(const MyApp());
 }
 
