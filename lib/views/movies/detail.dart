@@ -18,12 +18,12 @@ class _MovieDetailState extends State<MovieDetail> {
   @override
   void initState() {
     super.initState();
-    fetchMovieDetail();
+    getMovieDetail();
   }
 
-  Future<void> fetchMovieDetail() async {
+  Future<void> getMovieDetail() async {
     try {
-      final movieResponse = await MovieService.fetchMovieDetail(movieId.toString());
+      final movieResponse = await MovieService.getMovieDetail(movieId.toString());
       setState(() {
         movie = movieResponse;
       });
@@ -34,8 +34,8 @@ class _MovieDetailState extends State<MovieDetail> {
 
   @override
   Widget build(BuildContext context) {
-    int hours = movie!.runtime ~/ 60;
-    int minutes = movie!.runtime % 60;
+    int hours = movie != null ? movie!.runtime ~/ 60 : 0;
+    int minutes = movie != null ? movie!.runtime % 60 : 0;
 
     return Scaffold(
         body: movie != null
@@ -44,7 +44,9 @@ class _MovieDetailState extends State<MovieDetail> {
             SliverAppBar(
               expandedHeight: 200.0,
               flexibleSpace: FlexibleSpaceBar(
-                background: Image.network(movie!.backdropPath, fit: BoxFit.cover),
+                background: movie?.backdropPath != null ?
+                Image.network(movie!.backdropPath ?? '', fit: BoxFit.cover) :
+                const SizedBox(),
               ),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),

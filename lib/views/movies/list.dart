@@ -4,18 +4,14 @@ import 'package:movies_app/views/movies/detail.dart';
 import 'package:movies_app/models/movie.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 
-class PopularMovies extends StatelessWidget {
+class MoviesList extends StatelessWidget {
   final List<MovieList> movies;
-  const PopularMovies({super.key, required this.movies});
+  const MoviesList({super.key, required this.movies});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: Text('Popular Movies'),
-        ),
         SizedBox(
           height: 200,
           child:
@@ -26,21 +22,24 @@ class PopularMovies extends StatelessWidget {
                 return InkWell(onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MovieDetail(movieId: movies[index].id)
-                    ),
+                      MaterialPageRoute(builder: (context) => MovieDetail(movieId: movies[index].id))
                   );
                 },
                 child:
                   Container(
                     padding: const EdgeInsets.all(8),
+                    width: 150,
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(8),
-                      child: Image.network(
-                        movies[index].posterPath,
-                        fit: BoxFit.fill,
+                      child: movies[index].posterPath != null ?
+                        Image.network(movies[index].posterPath!, fit: BoxFit.fill) :
+                        Container(
+                          color: Colors.grey,
+                          width: 150,
+                          child: const Icon(Icons.movie, color: Colors.white, size: 50),
+                        ),
                       ),
                     ),
-                  ),
                 );
               },
             ),

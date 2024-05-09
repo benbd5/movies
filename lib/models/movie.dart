@@ -5,8 +5,8 @@ class Movie {
   final int id;
   final String title;
   final String overview;
-  final String posterPath;
-  final String backdropPath;
+  final String? posterPath;
+  final String? backdropPath;
   final String releaseDate;
   final double voteAverage;
   final double voteCount;
@@ -40,16 +40,16 @@ class Movie {
       title: json['title'],
       overview: json['overview'],
       releaseDate: json['release_date'],
-      posterPath: ApiConfig.imageBaseUrl + json['poster_path'],
-      backdropPath: ApiConfig.imageBaseUrl + json['backdrop_path'],
+      posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
+      backdropPath: json['backdrop_path'] == null ? null : ApiConfig.imageBaseUrl + json['backdrop_path'],
       voteAverage: json['vote_average'].toDouble(),
       voteCount: json['vote_count'].toDouble(),
       genres: List<Genre>.from(json['genres'].map((genre) => Genre.fromJson(genre))),
-      imdbId: json['imdb_id'],
+      imdbId: json['imdb_id'] ?? '',
       originCountries: List<String>.from(json['origin_country'].map((country) => country)),
       originalLanguage: json['original_language'],
       runtime: json['runtime'],
-      status: json['status'],
+      status: json['status'] ?? '',
     );
   }
 }

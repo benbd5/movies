@@ -2,12 +2,12 @@ import 'package:movies_app/utils/tmdb_config.dart';
 
 class MovieList {
   final int id;
-  final String title;
-  final String overview;
-  final String posterPath;
-  final String releaseDate;
-  final double voteAverage;
-  final double voteCount;
+  final String? title;
+  final String? overview;
+  final String? posterPath;
+  final String? releaseDate;
+  final double? voteAverage;
+  final double? voteCount;
 
   MovieList({
     required this.id,
@@ -25,7 +25,7 @@ class MovieList {
       title: json['title'],
       overview: json['overview'],
       releaseDate: json['release_date'],
-      posterPath: ApiConfig.imageBaseUrl + json['poster_path'],
+      posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
       voteAverage: json['vote_average'].toDouble(),
       voteCount: json['vote_count'].toDouble(),
     );
