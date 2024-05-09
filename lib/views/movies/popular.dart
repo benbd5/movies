@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:movies_app/models/movie_list.dart';
 import 'package:movies_app/views/movies/detail.dart';
+import 'package:movies_app/models/movie.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
-import '../../models/movie.dart';
 
 class PopularMovies extends StatelessWidget {
-  final List<Movie> movies;
+  final List<MovieList> movies;
   const PopularMovies({super.key, required this.movies});
 
   @override
@@ -25,7 +26,7 @@ class PopularMovies extends StatelessWidget {
                 return InkWell(onTap: () {
                   Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => MovieDetail(movie: movies[index])
+                      MaterialPageRoute(builder: (context) => MovieDetail(movieId: movies[index].id)
                     ),
                   );
                 },

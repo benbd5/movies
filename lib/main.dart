@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movies_app/models/movie_list.dart';
 import 'package:movies_app/views/movies/popular.dart';
 import './utils/tmdb_api.dart';
 import './models/movie.dart';
+import 'models/genre.dart';
 
 Future main() async {
   await dotenv.load(fileName: '.env');
@@ -17,33 +19,48 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Movies App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   State<HomePage> createState() => _MoviesState();
 }
 
 class _MoviesState extends State<HomePage> {
-  late List<Movie> movies = [];
+  late List<MovieList> movies = [];
+  late List<Genre> genres = [];
 
   @override
   void initState() {
     super.initState();
     fetchPopularMovies();
+    fetchGenres();
+  }
+
+  Future<void> fetchGenres() async {
+    try {
+      final List<Genre> fetchedGenres = await MovieService.fetchGenres();
+      setState(() {
+        genres = fetchedGenres;
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
   }
 
   Future<void> fetchPopularMovies() async {
     try {
-      final List<Movie> fetchedMovies = await MovieService.fetchPopularMovies();
+      final List<MovieList> fetchedMovies = await MovieService.fetchPopularMovies();
       setState(() {
         movies = fetchedMovies;
       });
