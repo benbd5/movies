@@ -1,55 +1,66 @@
 import 'package:movies_app/models/genre.dart';
+import 'package:movies_app/models/season.dart';
 import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
 
-class Movie {
+class TvShow {
   final int id;
   final String title;
   final String overview;
   final String? posterPath;
   final String? backdropPath;
-  final String releaseDate;
+  final String lastAirDate;
   final double voteAverage;
   final double voteCount;
   final List<Genre> genres;
   final String imdbId;
-  final List<String> originCountries;
+  final List<String> originCountry;
   final String originalLanguage;
-  final int runtime;
+  final List<int> episodeRuntime;
   final String status;
+  final int numberOfEpisodes;
+  final int numberOfSeasons;
+  final List<Season> seasons;
 
-  Movie({
+  TvShow({
     required this.id,
     required this.title,
     required this.overview,
     required this.posterPath,
     required this.backdropPath,
-    required this.releaseDate,
+    required this.lastAirDate,
     required this.voteAverage,
     required this.voteCount,
     required this.genres,
     required this.imdbId,
-    required this.originCountries,
+    required this.originCountry,
     required this.originalLanguage,
-    required this.runtime,
+    required this.episodeRuntime,
     required this.status,
+    required this.numberOfEpisodes,
+    required this.numberOfSeasons,
+    required this.seasons,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    return Movie(
+  factory TvShow.fromJson(Map<String, dynamic> json) {
+    return TvShow(
       id: json['id'],
-      title: json['title'],
+      title: json['name'],
       overview: json['overview'],
-      releaseDate: json['release_date'],
+      lastAirDate: json['last_air_date'],
       posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
       backdropPath: json['backdrop_path'] == null ? null : ApiConfig.imageBaseUrl + json['backdrop_path'],
       voteAverage: json['vote_average'].toDouble(),
       voteCount: json['vote_count'].toDouble(),
       genres: List<Genre>.from(json['genres'].map((genre) => Genre.fromJson(genre))),
       imdbId: json['imdb_id'] ?? '',
-      originCountries: List<String>.from(json['origin_country'].map((country) => country)),
+      originCountry: List<String>.from(json['origin_country'].map((country) => country)),
       originalLanguage: json['original_language'],
-      runtime: json['runtime'],
+      episodeRuntime: [],
       status: json['status'] ?? '',
+      numberOfEpisodes: json['number_of_episodes'],
+      numberOfSeasons: json['number_of_seasons'],
+      // seasons: List<Season>.from(json['seasons'].map((season) => Season.fromJson(season))),
+      seasons: [],
     );
   }
 }
