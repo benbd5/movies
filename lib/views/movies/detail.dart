@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/utils/tmdb_api/movie_api.dart';
+import 'package:movies_app/views/widgets/star_rating.dart';
 import '../../models/movie.dart';
 
 class MovieDetail extends StatefulWidget {
@@ -76,6 +77,8 @@ class _MovieDetailState extends State<MovieDetail> {
                     Text(movie!.genres.map((genre) => genre.name).join(', ')),
                     Text(movie!.releaseDate),
                     Text('${movie!.voteAverage.toStringAsFixed(1).toString()} / 10'),
+                    Text('${(movie!.voteAverage / 2).toStringAsFixed(1).toString()} / 5'),
+                    StarRating(rating: movie!.voteAverage / 2),
                     Text('${movie!.voteCount.floor().toString()} votes'),
                     Text('$hours h $minutes min'),
                     Text(movie!.status),
