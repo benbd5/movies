@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:movies_app/models/tv_show.dart';
+import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
 import 'package:movies_app/utils/tmdb_api/tv_show_api.dart';
+import 'package:movies_app/views/seasons/detail.dart';
+import 'package:movies_app/views/widgets/star_rating.dart';
 
 class TvShowDetail extends StatefulWidget {
   final int tvShowId;
@@ -34,9 +38,6 @@ class _TvShowDetailState extends State<TvShowDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // int hours = tvShow != null ? tvShow!.runtime ~/ 60 : 0;
-    // int minutes = tvShow != null ? tvShow!.runtime % 60 : 0;
-
     return Scaffold(
         body: tvShow != null
           ? CustomScrollView(
@@ -69,19 +70,49 @@ class _TvShowDetailState extends State<TvShowDetail> {
             ),
             SliverToBoxAdapter(
               child: SingleChildScrollView(
+                physics: const ScrollPhysics(),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     // Image.network(tvShow.posterPath),
                     Text(tvShow!.title),
                     Text(tvShow!.genres.map((genre) => genre.name).join(', ')),
                     Text(tvShow!.lastAirDate),
                     Text('${tvShow!.voteAverage.toStringAsFixed(1).toString()} / 10'),
+                    Text('${(tvShow!.voteAverage / 2).toStringAsFixed(1).toString()} / 5'),
+                    StarRating(rating: tvShow!.voteAverage / 2),
                     Text('${tvShow!.voteCount.floor().toString()} votes'),
-                    // Text('$hours h $minutes min'),
                     Text(tvShow!.status),
                     Text(tvShow!.originalLanguage),
                     Text(tvShow!.originCountry.join(', ')),
                     Text(tvShow!.overview),
+                    Text('${tvShow!.numberOfSeasons.toString()} seasons'),
+                    ListView.builder(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      itemBuilder: (context, index) {
+                        return InkWell(onTap: () {
+                          Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => SeasonDetail(seasonId: tvShow!.id, seasonNumber: tvShow!.seasons[index].seasonNumber)));
+                          },
+                          child:
+                            Container(
+                              padding: const EdgeInsets.all(8),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: tvShow?.seasons[index].posterPath != null ?
+                                Image.network(ApiConfig.imageBaseUrl + tvShow!.seasons[index].posterPath!, fit: BoxFit.fill) :
+                                Container(
+                                  color: Colors.grey,
+                                  child: const Icon(Icons.tv, color: Colors.white, size: 50),
+                                ),
+                              ),
+                            ),
+                        );
+                      },
+                      itemCount: tvShow!.numberOfSeasons,
+                    ),
                   ],
                 ),
               ),

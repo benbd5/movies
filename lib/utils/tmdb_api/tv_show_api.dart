@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:movies_app/models/season.dart';
 import 'package:movies_app/models/tv_show.dart';
 import 'package:movies_app/models/tv_show_list.dart';
 import 'dart:convert';
@@ -27,6 +28,18 @@ class TvShowApi {
       return TvShow.fromJson(data);
     } else {
       throw Exception('Failed to fetch tv shows');
+    }
+  }
+
+  static Future<Season> getTvSeasonDetail(String tvShowId, String seasonNumber) async {
+    final response = await http.get(Uri.parse(
+      '${ApiConfig.baseUrl}/tv/$tvShowId/season/$seasonNumber?api_key=${ApiConfig.apiKey}',
+    ));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      return Season.fromJson(data);
+    } else {
+      throw Exception('Failed to fetch tv season details');
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/movie_list.dart';
 import 'package:movies_app/views/movies/detail.dart';
-import 'package:movies_app/models/movie.dart';
 // import 'package:cached_network_image/cached_network_image.dart';
 
 class MoviesList extends StatelessWidget {

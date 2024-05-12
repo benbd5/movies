@@ -1,5 +1,5 @@
 import 'package:movies_app/models/genre.dart';
-import 'package:movies_app/models/season.dart';
+import 'package:movies_app/models/season_list.dart';
 import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
 
 class TvShow {
@@ -19,7 +19,7 @@ class TvShow {
   final String status;
   final int numberOfEpisodes;
   final int numberOfSeasons;
-  final List<Season> seasons;
+  final List<SeasonList> seasons;
 
   TvShow({
     required this.id,
@@ -59,8 +59,7 @@ class TvShow {
       status: json['status'] ?? '',
       numberOfEpisodes: json['number_of_episodes'],
       numberOfSeasons: json['number_of_seasons'],
-      // seasons: List<Season>.from(json['seasons'].map((season) => Season.fromJson(season))),
-      seasons: [],
+      seasons: List<SeasonList>.from(json['seasons']?.map((season) => SeasonList.fromJson(season))),
     );
   }
 }
