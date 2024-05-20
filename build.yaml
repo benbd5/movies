@@ -1,0 +1,7 @@
+targets:
+  $default:
+    builders:
+      isar:
+        options:
+          package: isar_flutter_libs
+          output: lib\isar\isar.gen.dart

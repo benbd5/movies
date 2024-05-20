@@ -1,42 +1,44 @@
+import 'package:isar/isar.dart';
 import 'package:movies_app/models/genre.dart';
 import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
 
+@embedded
 class Movie {
-  final int id;
-  final String title;
-  final String overview;
-  final String? posterPath;
-  final String? backdropPath;
-  final String releaseDate;
-  final double voteAverage;
-  final double voteCount;
-  final List<Genre> genres;
-  final String imdbId;
-  final List<String> originCountries;
-  final String originalLanguage;
-  final int runtime;
-  final String status;
+  int? tmdbId;
+  String? title;
+  String? overview;
+  String? posterPath;
+  String? backdropPath;
+  String? releaseDate;
+  double? voteAverage;
+  double? voteCount;
+  List<Genre>? genres = [];
+  String? imdbId;
+  List<String>? originCountries;
+  String? originalLanguage;
+  int? runtime;
+  String? status;
 
   Movie({
-    required this.id,
-    required this.title,
-    required this.overview,
-    required this.posterPath,
-    required this.backdropPath,
-    required this.releaseDate,
-    required this.voteAverage,
-    required this.voteCount,
-    required this.genres,
-    required this.imdbId,
-    required this.originCountries,
-    required this.originalLanguage,
-    required this.runtime,
-    required this.status,
+    this.tmdbId,
+    this.title,
+    this.overview,
+    this.posterPath,
+    this.backdropPath,
+    this.releaseDate,
+    this.voteAverage,
+    this.voteCount,
+    this.genres,
+    this.imdbId,
+    this.originCountries,
+    this.originalLanguage,
+    this.runtime,
+    this.status,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     return Movie(
-      id: json['id'],
+      tmdbId: json['id'],
       title: json['title'],
       overview: json['overview'],
       releaseDate: json['release_date'],

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:isar/isar.dart';
+import 'package:movies_app/database/watchlist.dart';
 import 'package:movies_app/utils/tmdb_api/movie_api.dart';
 import 'package:movies_app/views/widgets/star_rating.dart';
 import '../../models/movie.dart';
@@ -15,11 +17,16 @@ class MovieDetail extends StatefulWidget {
 class _MovieDetailState extends State<MovieDetail> {
   late int movieId = widget.movieId;
   Movie? movie;
+  late Isar _isar;
 
   @override
   void initState() {
-    super.initState();
     getMovieDetail();
+    // _isar = Isar.open(
+    //   [Watchlist],
+    //   directory: 'isar',
+    // ) as Isar;
+    super.initState();
   }
 
   Future<void> getMovieDetail() async {
@@ -33,10 +40,18 @@ class _MovieDetailState extends State<MovieDetail> {
     }
   }
 
+  Future<void> updateWatchList() async {
+    // final dir = await getApplicationDocumentsDirectory();
+    // final isar = await Isar.open(
+    //   [UserSchema],
+    //   directory: dir.path,
+    // );
+  }
+
   @override
   Widget build(BuildContext context) {
-    int hours = movie != null ? movie!.runtime ~/ 60 : 0;
-    int minutes = movie != null ? movie!.runtime % 60 : 0;
+    int hours = movie != null ? movie!.runtime! ~/ 60 : 0;
+    int minutes = movie != null ? movie!.runtime! % 60 : 0;
 
     return Scaffold(
         body: movie != null
@@ -67,24 +82,39 @@ class _MovieDetailState extends State<MovieDetail> {
                   ),
                 ),
               ),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.favorite), onPressed: () {
+
+                },
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.black26),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      )
+                    ),
+                  ),
+                ),
+              ],
             ),
             SliverToBoxAdapter(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     // Image.network(movie.posterPath),
-                    Text(movie!.title),
-                    Text(movie!.genres.map((genre) => genre.name).join(', ')),
-                    Text(movie!.releaseDate),
-                    Text('${movie!.voteAverage.toStringAsFixed(1).toString()} / 10'),
-                    Text('${(movie!.voteAverage / 2).toStringAsFixed(1).toString()} / 5'),
-                    StarRating(rating: movie!.voteAverage / 2),
-                    Text('${movie!.voteCount.floor().toString()} votes'),
+                    Text(movie!.title ?? ''),
+                    Text(movie!.genres!.map((genre) => genre.name).join(', ')),
+                    Text(movie!.releaseDate ?? ''),
+                    Text('${movie!.voteAverage?.toStringAsFixed(1).toString()} / 10'),
+                    Text('${(movie!.voteAverage! / 2).toStringAsFixed(1).toString()} / 5'),
+                    StarRating(rating: movie!.voteAverage! / 2),
+                    Text('${movie!.voteCount?.floor().toString()} votes'),
                     Text('$hours h $minutes min'),
-                    Text(movie!.status),
-                    Text(movie!.originalLanguage),
-                    Text(movie!.originCountries.join(', ')),
-                    Text(movie!.overview),
+                    Text(movie!.status ?? ''),
+                    Text(movie!.originalLanguage ?? ''),
+                    Text(movie!.originCountries!.join(', ')),
+                    Text(movie!.overview ?? ''),
                   ],
                 ),
               ),
@@ -94,4 +124,12 @@ class _MovieDetailState extends State<MovieDetail> {
         : const Center(child: CircularProgressIndicator()),
     );
   }
+
+  // IconData getIcon() {
+  //   if (movie != null && movie!.isFavorite) {
+  //     return Icons.favorite;
+  //   } else {
+  //     return Icons.favorite_border;
+  //   }
+  // }
 }

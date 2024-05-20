@@ -1,15 +1,18 @@
+import 'package:isar/isar.dart';
+
+@embedded
 class Genre {
-  final int id;
-  final String name;
+  int? tmdbId;
+  String? name;
 
   Genre({
-    required this.id,
-    required this.name,
+    this.tmdbId,
+    this.name,
   });
 
   factory Genre.fromJson(Map<String, dynamic> json) {
     return Genre(
-      id: json['id'],
+      tmdbId: json['id'],
       name: json['name'],
     );
   }

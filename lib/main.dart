@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:isar/isar.dart';
 import 'package:movies_app/models/movie_list.dart';
 import 'package:movies_app/views/movies/list.dart';
+import 'package:movies_app/views/profile/watchlist.dart';
 import 'package:movies_app/views/tv_shows.dart';
+import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
 import 'utils/tmdb_api/movie_api.dart';
 import 'models/genre.dart';
 
-Future main() async {
+Future<void> main() async {
   await dotenv.load(fileName: '.env');
+  await Isar.initializeIsarCore();
   runApp(const MyApp());
 }
 
@@ -24,6 +28,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HomePage(),
+      routes: {
+        '/movies': (context) => const HomePage(),
+        '/tv_shows': (context) => const TvShows(),
+        '/watchlist': (context) => const Watchlist(),
+      },
     );
   }
 }
@@ -41,7 +50,6 @@ class _MoviesState extends State<HomePage> {
   late List<MovieList> nowPlayingMovies = [];
   late List<Genre> genres = [];
   int selectedMonths = 1;
-  int _selectedIndex = 0;
 
   @override
   void initState() {
@@ -99,32 +107,12 @@ class _MoviesState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black26,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        // backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Colors.black26,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Movies'),
-          BottomNavigationBarItem(icon: Icon(Icons.tv), label: 'Tv shows'),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-
-          switch (index) {
-            case 0:
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
-              break;
-            case 1:
-              Navigator.push(context, MaterialPageRoute(builder: (context) => const TvShows()));
-              break;
-            default:
-              break;
-          }
-        },
-      ),
+      bottomNavigationBar: const BottomNavigation(selectedIndex: 1,),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -137,7 +125,7 @@ class _MoviesState extends State<HomePage> {
               children: [
                const Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Upcoming Movies'),
+                child: Text('Upcoming Movies', style: TextStyle(fontSize: 20, color: Colors.white)),
                 ),
                 const SizedBox(width: 10),
                 DropdownButton<int>(
