@@ -22,10 +22,10 @@ const WatchlistSchema = CollectionSchema(
       name: r'type',
       type: IsarType.string,
     ),
-    r'watchIds': PropertySchema(
+    r'watchId': PropertySchema(
       id: 1,
-      name: r'watchIds',
-      type: IsarType.longList,
+      name: r'watchId',
+      type: IsarType.long,
     )
   },
   estimateSize: _watchlistEstimateSize,
@@ -49,7 +49,6 @@ int _watchlistEstimateSize(
 ) {
   var bytesCount = offsets.last;
   bytesCount += 3 + object.type.length * 3;
-  bytesCount += 3 + object.watchIds.length * 8;
   return bytesCount;
 }
 
@@ -60,7 +59,7 @@ void _watchlistSerialize(
   Map<Type, List<int>> allOffsets,
 ) {
   writer.writeString(offsets[0], object.type);
-  writer.writeLongList(offsets[1], object.watchIds);
+  writer.writeLong(offsets[1], object.watchId);
 }
 
 Watchlist _watchlistDeserialize(
@@ -72,7 +71,7 @@ Watchlist _watchlistDeserialize(
   final object = Watchlist();
   object.id = id;
   object.type = reader.readString(offsets[0]);
-  object.watchIds = reader.readLongList(offsets[1]) ?? [];
+  object.watchId = reader.readLong(offsets[1]);
   return object;
 }
 
@@ -86,7 +85,7 @@ P _watchlistDeserializeProp<P>(
     case 0:
       return (reader.readString(offset)) as P;
     case 1:
-      return (reader.readLongList(offset) ?? []) as P;
+      return (reader.readLong(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -366,46 +365,43 @@ extension WatchlistQueryFilter
     });
   }
 
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition>
-      watchIdsElementEqualTo(int value) {
+  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition> watchIdEqualTo(
+      int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'watchIds',
+        property: r'watchId',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition>
-      watchIdsElementGreaterThan(
+  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition> watchIdGreaterThan(
     int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
-        property: r'watchIds',
+        property: r'watchId',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition>
-      watchIdsElementLessThan(
+  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition> watchIdLessThan(
     int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
-        property: r'watchIds',
+        property: r'watchId',
         value: value,
       ));
     });
   }
 
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition>
-      watchIdsElementBetween(
+  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition> watchIdBetween(
     int lower,
     int upper, {
     bool includeLower = true,
@@ -413,100 +409,12 @@ extension WatchlistQueryFilter
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
-        property: r'watchIds',
+        property: r'watchId',
         lower: lower,
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
       ));
-    });
-  }
-
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition>
-      watchIdsLengthEqualTo(int length) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'watchIds',
-        length,
-        true,
-        length,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition> watchIdsIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'watchIds',
-        0,
-        true,
-        0,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition>
-      watchIdsIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'watchIds',
-        0,
-        false,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition>
-      watchIdsLengthLessThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'watchIds',
-        0,
-        true,
-        length,
-        include,
-      );
-    });
-  }
-
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition>
-      watchIdsLengthGreaterThan(
-    int length, {
-    bool include = false,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'watchIds',
-        length,
-        include,
-        999999,
-        true,
-      );
-    });
-  }
-
-  QueryBuilder<Watchlist, Watchlist, QAfterFilterCondition>
-      watchIdsLengthBetween(
-    int lower,
-    int upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.listLength(
-        r'watchIds',
-        lower,
-        includeLower,
-        upper,
-        includeUpper,
-      );
     });
   }
 }
@@ -527,6 +435,18 @@ extension WatchlistQuerySortBy on QueryBuilder<Watchlist, Watchlist, QSortBy> {
   QueryBuilder<Watchlist, Watchlist, QAfterSortBy> sortByTypeDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'type', Sort.desc);
+    });
+  }
+
+  QueryBuilder<Watchlist, Watchlist, QAfterSortBy> sortByWatchId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'watchId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Watchlist, Watchlist, QAfterSortBy> sortByWatchIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'watchId', Sort.desc);
     });
   }
 }
@@ -556,6 +476,18 @@ extension WatchlistQuerySortThenBy
       return query.addSortBy(r'type', Sort.desc);
     });
   }
+
+  QueryBuilder<Watchlist, Watchlist, QAfterSortBy> thenByWatchId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'watchId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<Watchlist, Watchlist, QAfterSortBy> thenByWatchIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'watchId', Sort.desc);
+    });
+  }
 }
 
 extension WatchlistQueryWhereDistinct
@@ -567,9 +499,9 @@ extension WatchlistQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Watchlist, Watchlist, QDistinct> distinctByWatchIds() {
+  QueryBuilder<Watchlist, Watchlist, QDistinct> distinctByWatchId() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'watchIds');
+      return query.addDistinctBy(r'watchId');
     });
   }
 }
@@ -588,9 +520,9 @@ extension WatchlistQueryProperty
     });
   }
 
-  QueryBuilder<Watchlist, List<int>, QQueryOperations> watchIdsProperty() {
+  QueryBuilder<Watchlist, int, QQueryOperations> watchIdProperty() {
     return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'watchIds');
+      return query.addPropertyName(r'watchId');
     });
   }
 }

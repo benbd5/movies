@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
 import 'package:movies_app/database/watchlist.dart';
+import 'package:movies_app/utils/isar_service.dart';
 import 'package:movies_app/utils/tmdb_api/movie_api.dart';
 import 'package:movies_app/views/widgets/star_rating.dart';
 import '../../models/movie.dart';
@@ -15,17 +15,16 @@ class MovieDetail extends StatefulWidget {
 }
 
 class _MovieDetailState extends State<MovieDetail> {
+  final IsarService isarService = IsarService();
   late int movieId = widget.movieId;
+  late bool isFavorite = false;
   Movie? movie;
-  late Isar _isar;
+
 
   @override
   void initState() {
     getMovieDetail();
-    // _isar = Isar.open(
-    //   [Watchlist],
-    //   directory: 'isar',
-    // ) as Isar;
+    _isFavorite();
     super.initState();
   }
 
@@ -41,11 +40,24 @@ class _MovieDetailState extends State<MovieDetail> {
   }
 
   Future<void> updateWatchList() async {
-    // final dir = await getApplicationDocumentsDirectory();
-    // final isar = await Isar.open(
-    //   [UserSchema],
-    //   directory: dir.path,
-    // );
+    try {
+      final watchlist = Watchlist()
+        ..watchId = movieId
+        ..type = 'movie';
+      await isarService.addWatchlistToFavorite(watchlist);
+      setState(() {
+        isFavorite = !isFavorite;
+      });
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<void> _isFavorite() async {
+    bool response = await isarService.isFavorite(movieId);
+    setState(() {
+      isFavorite = response;
+    });
   }
 
   @override
@@ -84,9 +96,18 @@ class _MovieDetailState extends State<MovieDetail> {
               ),
               actions: [
                 IconButton(
-                  icon: const Icon(Icons.favorite), onPressed: () {
-
-                },
+                  // icon: FutureBuilder<IconData>(
+                  //   future: getIcon(),
+                  //   builder: (context, snapshot) {
+                  //     if (snapshot.hasData) {
+                  //       return Icon(snapshot.data!);
+                  //     } else {
+                  //       return const Icon(Icons.favorite_border);
+                  //     }
+                  //   },
+                  // ),
+                  icon: isFavorite ? const Icon(Icons.favorite) : const Icon(Icons.favorite_border),
+                  onPressed: () => updateWatchList(),
                   style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(Colors.black26),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
@@ -124,12 +145,4 @@ class _MovieDetailState extends State<MovieDetail> {
         : const Center(child: CircularProgressIndicator()),
     );
   }
-
-  // IconData getIcon() {
-  //   if (movie != null && movie!.isFavorite) {
-  //     return Icons.favorite;
-  //   } else {
-  //     return Icons.favorite_border;
-  //   }
-  // }
 }

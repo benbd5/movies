@@ -10,15 +10,39 @@ class IsarService {
     db = openDB();
   }
 
-  Future<void> saveWatchlist(Watchlist newWatchlist) async {
+  Future<void> addWatchlistToFavorite(Watchlist newWatchlist) async {
     final isar = await db;
-    isar.writeTxnSync<int>(() => isar.watchlists.putSync(newWatchlist));
+    final watchlist = await isar.watchlists
+        .filter()
+        .typeEqualTo('movie')
+        .watchIdEqualTo(newWatchlist.watchId)
+        .findFirst();
+    if (watchlist == null) {
+      await isar.writeTxn(() => isar.watchlists.put(newWatchlist));
+    } else {
+      await deleteWatchlist(watchlist);
+    }
+  }
+
+  Future<void> deleteWatchlist(Watchlist watchlist) async {
+    final isar = await db;
+    await isar.writeTxn(() => isar.watchlists.delete(watchlist.id));
   }
 
   Future<List<Watchlist>> getAllWatchlists() async {
     final isar = await db;
     final watchlists = await isar.watchlists.where().findAll();
     return watchlists;
+  }
+
+  Future<bool> isFavorite(int watchId) async {
+    final isar = await db;
+    final watchlist = await isar.watchlists
+        .filter()
+        .typeEqualTo('movie')
+        .watchIdEqualTo(watchId)
+        .findFirst();
+    return watchlist != null;
   }
 
   Future<void> cleanDb() async {
@@ -28,22 +52,16 @@ class IsarService {
 
 
   Future<Isar> openDB() async {
-    try {
-      WidgetsFlutterBinding.ensureInitialized();
-      final existingIsar = Isar.getInstance();
-      if (existingIsar != null) {
-        return existingIsar;
-      }
-
+    WidgetsFlutterBinding.ensureInitialized();
+    if (Isar.instanceNames.isEmpty) {
       final dir = await getApplicationDocumentsDirectory();
       return await Isar.open(
         [WatchlistSchema],
-        inspector: true,
         directory: dir.path,
+        inspector: true,
       );
-    } catch (e) {
-      print('Error opening database: $e');
-      rethrow;
     }
+
+    return Future.value(Isar.getInstance());
   }
 }

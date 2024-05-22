@@ -1,5 +1,7 @@
 import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
 
+import 'movie.dart';
+
 class MovieList {
   final int id;
   final String? title;
@@ -28,6 +30,18 @@ class MovieList {
       posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
       voteAverage: json['vote_average'].toDouble(),
       voteCount: json['vote_count'].toDouble(),
+    );
+  }
+
+  factory MovieList.fromMovie(Movie movie) {
+    return MovieList(
+      id: movie.tmdbId!,
+      title: movie.title,
+      overview: movie.overview,
+      releaseDate: movie.releaseDate,
+      posterPath: movie.posterPath,
+      voteAverage: movie.voteAverage,
+      voteCount: movie.voteCount,
     );
   }
 }

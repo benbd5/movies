@@ -6,5 +6,5 @@ part 'watchlist.g.dart';
 class Watchlist {
   Id id = Isar.autoIncrement;
   late String type;
-  late List<int> watchIds = [];
+  late int watchId;
 }
