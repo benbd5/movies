@@ -20,7 +20,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
         BottomNavigationBarItem(icon: Icon(Icons.movie), label: 'Movies'),
         BottomNavigationBarItem(icon: Icon(Icons.tv), label: 'Tv shows'),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
+        BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+      ],
       currentIndex: _selectedIndex,
       onTap: (index) {
         setState(() {
@@ -36,6 +37,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
             break;
           case 2:
             Navigator.pushNamed(context, '/watchlist');
+            break;
+          case 3:
+            Navigator.pushNamed(context, '/search');
             break;
           default:
             break;

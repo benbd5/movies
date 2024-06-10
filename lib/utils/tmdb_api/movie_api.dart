@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'package:movies_app/models/genre.dart';
 import 'package:movies_app/models/movie_list.dart';
+import 'package:movies_app/models/search_movies_list.dart';
 import 'package:movies_app/models/tv_show_list.dart';
 import 'dart:convert';
 
@@ -111,6 +112,21 @@ class MovieApi {
       return results.map((json) => TvShowList.fromJson(json)).toList();
     } else {
       throw Exception('Failed to fetch tv shows');
+    }
+  }
+
+  static Future<List<SearchMovieList>> searchMovies(String query) async {
+    print(query);
+    final response = await http.get(Uri.parse(
+      '${ApiConfig.baseUrl}/search/movie?query=$query&api_key=${ApiConfig.apiKey}',
+    ));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final List<dynamic> results = data['results'];
+      return results.map((json) => SearchMovieList.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to fetch movies');
     }
   }
 }

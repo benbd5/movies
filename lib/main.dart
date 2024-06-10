@@ -4,6 +4,7 @@ import 'package:isar/isar.dart';
 import 'package:movies_app/models/movie_list.dart';
 import 'package:movies_app/views/movies/list.dart';
 import 'package:movies_app/views/profile/watchlist.dart';
+import 'package:movies_app/views/search/search.dart';
 import 'package:movies_app/views/tv_shows.dart';
 import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
 import 'utils/tmdb_api/movie_api.dart';
@@ -24,14 +25,21 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Movies App',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.deepPurple,
+            background: Colors.black26,
+        ),
+        appBarTheme: const AppBarTheme(
+            backgroundColor: Colors.black26
+        ),
       ),
       home: const HomePage(),
       routes: {
         '/movies': (context) => const HomePage(),
         '/tv_shows': (context) => const TvShows(),
         '/watchlist': (context) => const Watchlist(),
+        '/search': (context) => const Search(),
       },
     );
   }
