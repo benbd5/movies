@@ -38,9 +38,9 @@ class MovieTile extends StatelessWidget {
                     child: movies[index].posterPath != null ?
                     Image.network(movies[index].posterPath!, fit: BoxFit.fill) :
                     Container(
-                      color: Colors.grey,
+                      color: Colors.grey.withOpacity(0.25),
                       width: 150,
-                      child: const Icon(Icons.movie, color: Colors.white, size: 50),
+                      child: Icon(Icons.movie, color: Colors.white.withOpacity(0.9), size: 50),
                     ),
                   ),
                 ),

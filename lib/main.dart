@@ -9,6 +9,7 @@ import 'package:movies_app/views/profile/watchlist.dart';
 import 'package:movies_app/views/search/search.dart';
 import 'package:movies_app/views/tv_shows.dart';
 import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
+import 'package:movies_app/views/widgets/shimmer_loader.dart';
 import 'utils/tmdb_api/movie_api.dart';
 import 'models/genre.dart';
 
@@ -31,7 +32,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(
           seedColor: Colors.deepPurple,
           background: Colors.black26,
-
         ),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.black26,
@@ -65,6 +65,11 @@ class MyApp extends StatelessWidget {
           ),
           enableFeedback: true,
           tileColor: Colors.black12,
+        ),
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          backgroundColor: Colors.black87,
+          selectedItemColor: Colors.deepPurple,
+          unselectedItemColor: Colors.white38,
         ),
       ),
       home: const HomePage(),
@@ -157,7 +162,7 @@ class _MoviesState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black26,
-      bottomNavigationBar: const BottomNavigation(selectedIndex: 1),
+      bottomNavigationBar: const BottomNavigation(selectedIndex: 0),
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(top: 30),
         child: Column(
@@ -166,7 +171,7 @@ class _MoviesState extends State<HomePage> {
               alignment: Alignment.centerLeft,
               child: Text('Popular Movies'),
             ),
-            popularMovies.isEmpty ? const CircularProgressIndicator() : MoviesList(movies: popularMovies),
+            popularMovies.isEmpty ? const ShimmerLoader() : MoviesList(movies: popularMovies),
             Row(
               children: [
                const Align(
@@ -175,6 +180,7 @@ class _MoviesState extends State<HomePage> {
                 ),
                 const SizedBox(width: 10),
                 DropdownButton<int>(
+                  dropdownColor: Colors.black87,
                   value: selectedMonths,
                   items: const [
                     DropdownMenuItem(value: 1, child: Text('1 Month')),
@@ -191,12 +197,12 @@ class _MoviesState extends State<HomePage> {
                 ),
               ],
             ),
-            discoverMovies.isEmpty ? const CircularProgressIndicator() : MoviesList(movies: discoverMovies),
+            discoverMovies.isEmpty ? const ShimmerLoader() : MoviesList(movies: discoverMovies),
             const Align(
               alignment: Alignment.centerLeft,
               child: Text('Movies currently in theatres'),
             ),
-            nowPlayingMovies.isEmpty ? const CircularProgressIndicator() : MoviesList(movies: nowPlayingMovies),
+            nowPlayingMovies.isEmpty ? const ShimmerLoader() : MoviesList(movies: nowPlayingMovies),
           ],
         ),
       ),

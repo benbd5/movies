@@ -3,6 +3,7 @@ import 'package:movies_app/models/tv_show_list.dart';
 import 'package:movies_app/utils/tmdb_api/tv_show_api.dart';
 import 'package:movies_app/views/tv_shows/list.dart';
 import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
+import 'package:movies_app/views/widgets/shimmer_loader.dart';
 
 class TvShows extends StatefulWidget {
   const TvShows({super.key});
@@ -39,7 +40,7 @@ class _TvShowsState extends State<TvShows> {
         padding: const EdgeInsets.only(top: 30),
         child: Column(
           children: [
-            popularTvShows.isEmpty ? const CircularProgressIndicator() : TvShowsList(tvShows: popularTvShows),
+            popularTvShows.isEmpty ? const ShimmerLoader() : TvShowsList(tvShows: popularTvShows),
           ],
         ),
       ),

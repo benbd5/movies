@@ -6,6 +6,7 @@ import 'package:movies_app/utils/isar_service.dart';
 import 'package:movies_app/utils/tmdb_api/movie_api.dart';
 import 'package:movies_app/views/movies/movie_tile.dart';
 import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
+import 'package:movies_app/views/widgets/shimmer_loader.dart';
 
 class Watchlist extends StatefulWidget {
   const Watchlist({super.key});
@@ -46,7 +47,7 @@ class _WatchlistState extends State<Watchlist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const BottomNavigation(selectedIndex: 1),
+      bottomNavigationBar: const BottomNavigation(selectedIndex: 2),
       body: SingleChildScrollView(
       padding: const EdgeInsets.only(top: 30),
         child: FutureBuilder(
@@ -55,7 +56,7 @@ class _WatchlistState extends State<Watchlist> {
             if (snapshot.hasData) {
               return MovieTile(movies: snapshot.data!, context: context);
             } else {
-              return const Center(child: CircularProgressIndicator());
+              return const ShimmerLoader();
             }
           },
         ),
