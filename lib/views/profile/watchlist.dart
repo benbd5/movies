@@ -4,7 +4,6 @@ import 'package:movies_app/models/movie.dart';
 import 'package:movies_app/models/movie_list.dart';
 import 'package:movies_app/utils/isar_service.dart';
 import 'package:movies_app/utils/tmdb_api/movie_api.dart';
-import 'package:movies_app/views/movies/detail.dart';
 import 'package:movies_app/views/movies/movie_tile.dart';
 import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
 
@@ -48,18 +47,18 @@ class _WatchlistState extends State<Watchlist> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: const BottomNavigation(selectedIndex: 1),
-      appBar: AppBar(
-        title: const Text('Watchlist'),
-      ),
-      body: FutureBuilder(
-        future: _movieDetailsFuture,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return MovieTile(movies: snapshot.data!, context: context);
-          } else {
-            return const Center(child: CircularProgressIndicator());
-          }
-        },
+      body: SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 30),
+        child: FutureBuilder(
+          future: _movieDetailsFuture,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return MovieTile(movies: snapshot.data!, context: context);
+            } else {
+              return const Center(child: CircularProgressIndicator());
+            }
+          },
+        ),
       ),
     );
   }

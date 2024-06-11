@@ -11,7 +11,7 @@ class Search extends StatefulWidget {
 }
 
 class _SearchState extends State<Search> {
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _controller = SearchController();
   List _movies = [];
   bool _isLoading = false;
 
@@ -40,11 +40,8 @@ class _SearchState extends State<Search> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: const BottomNavigation(selectedIndex: 3),
-      appBar: AppBar(
-        title: const Text('Search'),
-      ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.only(top: 30, left: 8.0, right: 8.0),
         child: Column(
           children: [
             SearchBar(
@@ -80,6 +77,13 @@ class _SearchState extends State<Search> {
                       child: Icon(Icons.movie),
                     )
                         : Image.network(movie.posterPath!),
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/movie_details',
+                        arguments: movie.id,
+                      );
+                    },
                   );
                 },
               ),

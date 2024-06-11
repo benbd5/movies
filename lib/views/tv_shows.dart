@@ -35,13 +35,13 @@ class _TvShowsState extends State<TvShows> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: const BottomNavigation(selectedIndex: 1),
-      appBar: AppBar(
-        title: const Text('Tv Shows'),
-      ),
-      body: Column(
-        children: [
-          popularTvShows.isEmpty ? const CircularProgressIndicator() : TvShowsList(tvShows: popularTvShows),
-        ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 30),
+        child: Column(
+          children: [
+            popularTvShows.isEmpty ? const CircularProgressIndicator() : TvShowsList(tvShows: popularTvShows),
+          ],
+        ),
       ),
     );
   }

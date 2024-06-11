@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:isar/isar.dart';
 import 'package:movies_app/models/movie_list.dart';
+import 'package:movies_app/views/movies/detail.dart';
 import 'package:movies_app/views/movies/list.dart';
 import 'package:movies_app/views/profile/watchlist.dart';
 import 'package:movies_app/views/search/search.dart';
@@ -27,11 +29,42 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.deepPurple,
-            background: Colors.black26,
+          seedColor: Colors.deepPurple,
+          background: Colors.black26,
+
         ),
         appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.black26
+          backgroundColor: Colors.black26,
+          titleTextStyle: TextStyle(color: Colors.white),
+          actionsIconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white),
+          bodySmall: TextStyle(color: Colors.white),
+          titleLarge: TextStyle(color: Colors.white),
+          titleMedium: TextStyle(color: Colors.white),
+          titleSmall: TextStyle(color: Colors.white),
+          displayLarge: TextStyle(color: Colors.white),
+          displayMedium: TextStyle(color: Colors.white),
+          displaySmall: TextStyle(color: Colors.white),
+          labelLarge: TextStyle(color: Colors.white),
+          labelMedium: TextStyle(color: Colors.white),
+          labelSmall: TextStyle(color: Colors.white),
+          headlineLarge: TextStyle(color: Colors.white),
+          headlineMedium: TextStyle(color: Colors.white),
+          headlineSmall: TextStyle(color: Colors.white),
+        ),
+        listTileTheme: const ListTileThemeData(
+          contentPadding: EdgeInsets.all(10),
+          titleTextStyle: TextStyle(color: Colors.white),
+          subtitleTextStyle: TextStyle(color: Colors.white38),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          enableFeedback: true,
+          tileColor: Colors.black12,
         ),
       ),
       home: const HomePage(),
@@ -40,6 +73,14 @@ class MyApp extends StatelessWidget {
         '/tv_shows': (context) => const TvShows(),
         '/watchlist': (context) => const Watchlist(),
         '/search': (context) => const Search(),
+      },
+      onGenerateRoute: (settings) {
+        if (settings.name == '/movie_details') {
+          return MaterialPageRoute(
+            builder: (context) => MovieDetail(movieId: settings.arguments as int),
+          );
+        }
+        return null;
       },
     );
   }
@@ -116,12 +157,9 @@ class _MoviesState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black26,
-      appBar: AppBar(
-        // backgroundColor: Theme.of(context).colorScheme.background,
-        backgroundColor: Colors.black26,
-      ),
-      bottomNavigationBar: const BottomNavigation(selectedIndex: 1,),
+      bottomNavigationBar: const BottomNavigation(selectedIndex: 1),
       body: SingleChildScrollView(
+        padding: const EdgeInsets.only(top: 30),
         child: Column(
           children: [
             const Align(

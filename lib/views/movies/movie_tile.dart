@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/movie_list.dart';
 
-import 'detail.dart';
-
 class MovieTile extends StatelessWidget {
   const MovieTile({
     super.key,
@@ -25,9 +23,10 @@ class MovieTile extends StatelessWidget {
             itemCount: movies.length,
             itemBuilder: (context, index) {
               return InkWell(onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MovieDetail(movieId: movies[index].id))
+                Navigator.pushNamed(
+                  context,
+                  '/movie_details',
+                  arguments: movies[index].id,
                 );
               },
                 child:
