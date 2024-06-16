@@ -29,8 +29,7 @@ class MovieTile extends StatelessWidget {
                   arguments: movies[index].id,
                 );
               },
-                child:
-                Container(
+                child: Container(
                   padding: const EdgeInsets.all(8),
                   width: 150,
                   child: ClipRRect(

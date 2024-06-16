@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:isar/isar.dart';
 import 'package:movies_app/models/movie_list.dart';
+import 'package:movies_app/views/movies/carousel_movies.dart';
 import 'package:movies_app/views/movies/detail.dart';
 import 'package:movies_app/views/movies/list.dart';
 import 'package:movies_app/views/profile/watchlist.dart';
@@ -171,7 +172,7 @@ class _MoviesState extends State<HomePage> {
               alignment: Alignment.centerLeft,
               child: Text('Popular Movies'),
             ),
-            popularMovies.isEmpty ? const ShimmerLoader() : MoviesList(movies: popularMovies),
+            popularMovies.isEmpty ? const ShimmerLoader() : CarouselMovies(movies: popularMovies),
             Row(
               children: [
                const Align(
