@@ -10,6 +10,7 @@ import 'package:movies_app/views/profile/watchlist.dart';
 import 'package:movies_app/views/search/search.dart';
 import 'package:movies_app/views/tv_shows.dart';
 import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
+import 'package:movies_app/views/widgets/shimmer_carousel_loader.dart';
 import 'package:movies_app/views/widgets/shimmer_loader.dart';
 import 'utils/tmdb_api/movie_api.dart';
 import 'models/genre.dart';
@@ -172,7 +173,7 @@ class _MoviesState extends State<HomePage> {
               alignment: Alignment.centerLeft,
               child: Text('Popular Movies'),
             ),
-            popularMovies.isEmpty ? const ShimmerLoader() : CarouselMovies(movies: popularMovies),
+            popularMovies.isEmpty ? const ShimmerCarouselLoader() : CarouselMovies(movies: popularMovies),
             Row(
               children: [
                const Align(

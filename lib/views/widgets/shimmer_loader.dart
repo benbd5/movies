@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ShimmerLoader extends StatefulWidget {
-  const ShimmerLoader({super.key,});
+  const ShimmerLoader({super.key});
 
   @override
   State<ShimmerLoader> createState() => _ShimmerLoaderState();

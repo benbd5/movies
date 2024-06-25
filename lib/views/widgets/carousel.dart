@@ -59,7 +59,7 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
     return Column(
       children: [
         SizedBox(
-          height: 220,
+          height: 320,
           child: PageView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.movies.length,
@@ -88,10 +88,23 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
 
   AnimatedBuilder slider(images, pagePosition, active) {
     return AnimatedBuilder(
-    animation: pageController,
-    builder: (context, child) {
-      return Transform.scale(
-        scale: max(0.9, 1 - (pageController.page! - pagePosition).abs() * 0.3),
+      animation: pageController,
+      builder: (context, child) {
+      double value = 1;
+        if (pageController.position.haveDimensions) {
+          value = pageController.page! - pagePosition;
+          value = (1 - (value.abs() * 0.3)).clamp(0.0, 1.0);
+        }
+        return Center(
+          child: SizedBox(
+            height: Curves.easeInOut.transform(value) * 320,
+            width: Curves.easeInOut.transform(value) * 320,
+            child: child,
+          ),
+        );
+      },
+      child:Transform.scale(
+        scale: max(0.9, 1 - (15 - pagePosition).abs() * 0.3),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOutCubic,
@@ -124,8 +137,8 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
             ),
           ),
         ),
-      );
-    });
+      ),
+    );
   }
 
   List<Widget> indicators(int imagesLength, int currentIndex) {
