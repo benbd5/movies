@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:movies_app/database/watchlist.dart';
 import 'package:movies_app/utils/isar_service.dart';
@@ -19,7 +21,6 @@ class _MovieDetailState extends State<MovieDetail> {
   late int movieId = widget.movieId;
   late bool isFavorite = false;
   Movie? movie;
-
 
   @override
   void initState() {
@@ -66,83 +67,126 @@ class _MovieDetailState extends State<MovieDetail> {
     int minutes = movie != null ? movie!.runtime! % 60 : 0;
 
     return Scaffold(
-        body: movie != null
-          ? CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              expandedHeight: 200.0,
-              flexibleSpace: FlexibleSpaceBar(
-                background: movie?.backdropPath != null ?
-                Image.network(movie!.backdropPath ?? '', fit: BoxFit.cover) :
-                const SizedBox(),
+      body: movie != null
+          ? Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: NetworkImage(movie!.posterPath ?? ''),
+                fit: BoxFit.cover,
               ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
               ),
-              iconTheme: const IconThemeData(
-                color: Colors.white,
+            ),
+          ),
+          CustomScrollView(
+            slivers: [
+              const SliverAppBar(
+                backgroundColor: Colors.transparent,
               ),
-              backgroundColor: Colors.black26,
-              leading: IconButton(
-                icon: const Icon(Icons.arrow_back), onPressed: () => Navigator.pop(context),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.black26),
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20.0),
-                    )
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              movie!.posterPath ?? '',
+                              height: 180,
+                              width: 120,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  movie!.title ?? '',
+                                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  movie!.genres!.map((genre) => genre.name).join(', '),
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white70),
+                                ),
+                                const SizedBox(height: 8),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    updateWatchList();
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                    backgroundColor: Colors.white.withOpacity(0.1),
+                                    elevation: 0,
+                                    padding: const EdgeInsets.all(0.0),
+                                    shape: const CircleBorder(),
+                                    splashFactory: InkRipple.splashFactory,
+                                  ),
+                                  child: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+                      Text(
+                        'Overview',
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        movie!.overview ?? '',
+                        style: const TextStyle(color: Colors.white70),
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          const Icon(Icons.access_time, color: Colors.white70),
+                          const SizedBox(width: 4),
+                          Text(
+                            '$hours h $minutes min',
+                            style: const TextStyle(color: Colors.white70),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Row(
+                        children: [
+                          StarRating(rating: movie!.voteAverage! / 2),
+                          const SizedBox(width: 4),
+                          Text(
+                            '${movie!.voteAverage?.toStringAsFixed(1)} / 10',
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                              '(${movie!.voteCount?.floor()} votes)',
+                            style: const TextStyle(color: Colors.white70)
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
               ),
-              actions: [
-                IconButton(
-                  // icon: FutureBuilder<IconData>(
-                  //   future: getIcon(),
-                  //   builder: (context, snapshot) {
-                  //     if (snapshot.hasData) {
-                  //       return Icon(snapshot.data!);
-                  //     } else {
-                  //       return const Icon(Icons.favorite_border);
-                  //     }
-                  //   },
-                  // ),
-                  icon: isFavorite ? const Icon(Icons.favorite) : const Icon(Icons.favorite_border),
-                  onPressed: () => updateWatchList(),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.black26),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20.0),
-                      )
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SliverToBoxAdapter(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    // Image.network(movie.posterPath),
-                    Text(movie!.title ?? ''),
-                    Text(movie!.genres!.map((genre) => genre.name).join(', ')),
-                    Text(movie!.releaseDate ?? ''),
-                    Text('${movie!.voteAverage?.toStringAsFixed(1).toString()} / 10'),
-                    Text('${(movie!.voteAverage! / 2).toStringAsFixed(1).toString()} / 5'),
-                    StarRating(rating: movie!.voteAverage! / 2),
-                    Text('${movie!.voteCount?.floor().toString()} votes'),
-                    Text('$hours h $minutes min'),
-                    Text(movie!.status ?? ''),
-                    Text(movie!.originalLanguage ?? ''),
-                    Text(movie!.originCountries!.join(', ')),
-                    Text(movie!.overview ?? ''),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        )
-        : const Center(child: CircularProgressIndicator()),
+            ],
+          ),
+        ],
+      )
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }

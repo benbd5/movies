@@ -45,6 +45,7 @@ class _SearchState extends State<Search> {
         child: Column(
           children: [
             SearchBar(
+              textInputAction: TextInputAction.search,
               controller: _controller,
               hintText: 'Search for a movie',
               onSubmitted: (query) {
@@ -54,6 +55,12 @@ class _SearchState extends State<Search> {
                 if (query.isEmpty) {
                   setState(() {
                     _movies = [];
+                  });
+                }
+
+                if (query.length > 2) {
+                  Future.delayed(const Duration(milliseconds: 500), () {
+                    _searchMovies(query);
                   });
                 }
               },
