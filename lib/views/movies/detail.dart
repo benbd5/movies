@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/database/watchlist.dart';
 import 'package:movies_app/utils/isar_service.dart';
@@ -68,7 +69,7 @@ class _MovieDetailState extends State<MovieDetail> {
 
     return Scaffold(
       body: movie != null
-          ? Stack(
+        ? Stack(
         children: [
           Container(
             decoration: BoxDecoration(
@@ -100,7 +101,8 @@ class _MovieDetailState extends State<MovieDetail> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
-                            child: Image.network(
+                            child:
+                            Image.network(
                               movie!.posterPath ?? '',
                               height: 180,
                               width: 120,
@@ -122,20 +124,6 @@ class _MovieDetailState extends State<MovieDetail> {
                                   style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white70),
                                 ),
                                 const SizedBox(height: 8),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    updateWatchList();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    foregroundColor: Colors.white,
-                                    backgroundColor: Colors.white.withOpacity(0.1),
-                                    elevation: 0,
-                                    padding: const EdgeInsets.all(0.0),
-                                    shape: const CircleBorder(),
-                                    splashFactory: InkRipple.splashFactory,
-                                  ),
-                                  child: Icon(isFavorite ? Icons.favorite : Icons.favorite_border),
-                                ),
                               ],
                             ),
                           ),
@@ -183,6 +171,34 @@ class _MovieDetailState extends State<MovieDetail> {
                 ),
               ),
             ],
+          ),
+          Positioned(
+            bottom: 16,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: ElevatedButton(
+                onPressed: updateWatchList,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: Colors.white,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ),
         ],
       )

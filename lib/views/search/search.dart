@@ -77,7 +77,7 @@ class _SearchState extends State<Search> {
                   return ListTile(
                     title: Text(movie.title ?? 'No title'),
                     subtitle: Text(movie.releaseDate ?? 'No overview'),
-                    leading: movie.posterPath == null
+                    leading: movie.posterPath == ''
                         ? const SizedBox(
                       width: 80,
                       height: 80,

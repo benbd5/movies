@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movies_app/models/movie_list.dart';
 
@@ -22,6 +23,13 @@ class MovieTile extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: movies.length,
             itemBuilder: (context, index) {
+              Image image = Image(
+                image: CachedNetworkImageProvider(movies[index].posterPath),
+                fit: BoxFit.cover,
+              );
+
+              precacheImage(image.image, context);
+
               return InkWell(onTap: () {
                 Navigator.pushNamed(
                   context,
@@ -34,8 +42,8 @@ class MovieTile extends StatelessWidget {
                   width: 150,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8),
-                    child: movies[index].posterPath != null ?
-                    Image.network(movies[index].posterPath!, fit: BoxFit.fill) :
+                    child: movies[index].posterPath != '' ?
+                    image :
                     Container(
                       color: Colors.grey.withOpacity(0.25),
                       width: 150,

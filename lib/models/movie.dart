@@ -7,7 +7,7 @@ class Movie {
   int? tmdbId;
   String? title;
   String? overview;
-  String? posterPath;
+  String posterPath;
   String? backdropPath;
   String? releaseDate;
   double? voteAverage;
@@ -23,7 +23,7 @@ class Movie {
     this.tmdbId,
     this.title,
     this.overview,
-    this.posterPath,
+    required this.posterPath,
     this.backdropPath,
     this.releaseDate,
     this.voteAverage,
@@ -42,7 +42,7 @@ class Movie {
       title: json['title'],
       overview: json['overview'],
       releaseDate: json['release_date'],
-      posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
+      posterPath: json['poster_path'] == null ? '' : ApiConfig.imageBaseUrl + json['poster_path'],
       backdropPath: json['backdrop_path'] == null ? null : ApiConfig.imageBaseUrl + json['backdrop_path'],
       voteAverage: json['vote_average'].toDouble(),
       voteCount: json['vote_count'].toDouble(),

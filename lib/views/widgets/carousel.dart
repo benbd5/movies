@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CarouselWidget extends StatefulWidget {
@@ -87,6 +88,13 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
   }
 
   AnimatedBuilder slider(images, pagePosition, active) {
+    Image image = Image(
+      image: CachedNetworkImageProvider(images[pagePosition].posterPath),
+      fit: BoxFit.cover,
+    );
+
+    precacheImage(image.image, context);
+
     return AnimatedBuilder(
       animation: pageController,
       builder: (context, child) {
@@ -123,11 +131,7 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
                 child: widget.movies[pagePosition].posterPath != null
-                    ? Image.network(
-                  widget.movies[pagePosition].posterPath!,
-                  fit: BoxFit.fill,
-                )
-                    :
+                ? image :
                 Container(
                   color: Colors.grey.withOpacity(0.25),
                   width: 150,

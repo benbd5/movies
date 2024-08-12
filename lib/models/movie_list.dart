@@ -6,7 +6,7 @@ class MovieList {
   final int id;
   final String? title;
   final String? overview;
-  final String? posterPath;
+  final String posterPath;
   final String? releaseDate;
   final double? voteAverage;
   final double? voteCount;
@@ -27,7 +27,7 @@ class MovieList {
       title: json['title'],
       overview: json['overview'],
       releaseDate: json['release_date'],
-      posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
+      posterPath: json['poster_path'] == null ? '' : ApiConfig.imageBaseUrl + json['poster_path'],
       voteAverage: json['vote_average'].toDouble(),
       voteCount: json['vote_count'].toDouble(),
     );

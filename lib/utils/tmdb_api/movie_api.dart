@@ -11,7 +11,7 @@ import '../../models/movie.dart';
 class MovieApi {
   static Future<List<MovieList>> getPopularMovies() async {
     final response = await http.get(Uri.parse(
-      '${ApiConfig.baseUrl}/movie/popular?api_key=${ApiConfig.apiKey}',
+      '${ApiConfig.baseUrl}/movie/popular?include_adult=false&api_key=${ApiConfig.apiKey}',
     ));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -24,7 +24,7 @@ class MovieApi {
 
   static Future<List<MovieList>> getUpcomingMovies() async {
     final response = await http.get(Uri.parse(
-      '${ApiConfig.baseUrl}/movie/upcoming?api_key=${ApiConfig.apiKey}',
+      '${ApiConfig.baseUrl}/movie/upcoming?include_adult=false&api_key=${ApiConfig.apiKey}',
     ));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -78,7 +78,7 @@ class MovieApi {
 
   static Future<List<MovieList>> getNowPlayingMovies() async {
     final response = await http.get(Uri.parse(
-      '${ApiConfig.baseUrl}/movie/now_playing?api_key=${ApiConfig.apiKey}',
+      '${ApiConfig.baseUrl}/movie/now_playing?include_adult=false&api_key=${ApiConfig.apiKey}',
     ));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -91,7 +91,7 @@ class MovieApi {
 
   static Future<List<TvShowList>> getPopularTvShows() async {
     final response = await http.get(Uri.parse(
-      '${ApiConfig.baseUrl}/tv/popular?api_key=${ApiConfig.apiKey}',
+      '${ApiConfig.baseUrl}/tv/popular?include_adult=false&api_key=${ApiConfig.apiKey}',
     ));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -116,9 +116,8 @@ class MovieApi {
   }
 
   static Future<List<SearchMovieList>> searchMovies(String query) async {
-    print(query);
     final response = await http.get(Uri.parse(
-      '${ApiConfig.baseUrl}/search/movie?query=$query&api_key=${ApiConfig.apiKey}',
+      '${ApiConfig.baseUrl}/search/movie?include_adult=false&query=$query&api_key=${ApiConfig.apiKey}',
     ));
 
     if (response.statusCode == 200) {
