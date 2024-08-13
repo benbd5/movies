@@ -4,7 +4,7 @@ class TvShowList {
   final int id;
   final String? title;
   final String? overview;
-  final String? posterPath;
+  final String posterPath;
   final String? firstAirDate;
   final double? voteAverage;
   final double? voteCount;
@@ -25,7 +25,7 @@ class TvShowList {
       title: json['name'],
       overview: json['overview'],
       firstAirDate: json['first_air_date'],
-      posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
+      posterPath: json['poster_path'] == null ? '' : ApiConfig.imageBaseUrl + json['poster_path'],
       voteAverage: json['vote_average'].toDouble(),
       voteCount: json['vote_count'].toDouble(),
     );

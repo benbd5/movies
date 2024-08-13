@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:isar/isar.dart';
@@ -9,6 +8,7 @@ import 'package:movies_app/views/movies/list.dart';
 import 'package:movies_app/views/profile/watchlist.dart';
 import 'package:movies_app/views/search/search.dart';
 import 'package:movies_app/views/tv_shows.dart';
+import 'package:movies_app/views/tv_shows/detail.dart';
 import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
 import 'package:movies_app/views/widgets/shimmer_carousel_loader.dart';
 import 'package:movies_app/views/widgets/shimmer_loader.dart';
@@ -85,6 +85,11 @@ class MyApp extends StatelessWidget {
         if (settings.name == '/movie_details') {
           return MaterialPageRoute(
             builder: (context) => MovieDetail(movieId: settings.arguments as int),
+          );
+        }
+        if (settings.name == '/tv_show_details') {
+          return MaterialPageRoute(
+            builder: (context) => TvShowDetail(tvShowId: settings.arguments as int),
           );
         }
         return null;
