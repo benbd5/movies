@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/database/watchlist.dart';
 import 'package:movies_app/utils/isar_service.dart';
 import 'package:movies_app/utils/tmdb_api/movie_api.dart';
+import 'package:movies_app/views/widgets/add_to_watchlist_button.dart';
 import 'package:movies_app/views/widgets/star_rating.dart';
 import '../../models/movie.dart';
 
@@ -171,37 +172,13 @@ class _MovieDetailState extends State<MovieDetail> {
               ),
             ],
           ),
-          Positioned(
-            bottom: 16,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: ElevatedButton(
-                onPressed: updateWatchList,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.transparent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        isFavorite ? Icons.favorite : Icons.favorite_border,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
         ],
-      )
-          : const Center(child: CircularProgressIndicator()),
+      ) :
+      const Center(child: CircularProgressIndicator()),
+      floatingActionButton: AddToWatchlistButton(
+        isFavorite: isFavorite,
+        updateWatchList: updateWatchList,
+      ),
     );
   }
 }

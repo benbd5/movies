@@ -7,6 +7,7 @@ import 'package:movies_app/utils/isar_service.dart';
 import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
 import 'package:movies_app/utils/tmdb_api/tv_show_api.dart';
 import 'package:movies_app/views/seasons/detail.dart';
+import 'package:movies_app/views/widgets/add_to_watchlist_button.dart';
 import 'package:movies_app/views/widgets/star_rating.dart';
 
 class TvShowDetail extends StatefulWidget {
@@ -65,12 +66,9 @@ class _TvShowDetailState extends State<TvShowDetail> {
 
   @override
   Widget build(BuildContext context) {
-    // int hours = tvShow != null ? tvShow!.runtime! ~/ 60 : 0;
-    // int minutes = tvShow != null ? tvShow!.runtime! % 60 : 0;
-
     return Scaffold(
-        body: tvShow != null
-            ? Stack(
+      body: tvShow != null ?
+        Stack(
           children: [
             Container(
               decoration: BoxDecoration(
@@ -187,27 +185,27 @@ class _TvShowDetailState extends State<TvShowDetail> {
                         ),
                         const SizedBox(height: 16),
                         ExpansionTile(
-                          title: const Text('Season list'),
+                          title: const Text('Season list', style: TextStyle(color: Colors.white70)),
                           children: [
                             ListView.builder(
+                              padding: EdgeInsets.zero,
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               scrollDirection: Axis.vertical,
                               itemBuilder: (context, index) {
-                                return InkWell(onTap: () {
-                                  Navigator.push(context,
-                                      MaterialPageRoute(builder: (context) => SeasonDetail(seasonId: tvShow!.id, seasonNumber: tvShow!.seasons[index].seasonNumber)));
-                                },
-                                child:
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: tvShow?.seasons[index].posterPath != null ?
-                                    Image.network(ApiConfig.imageBaseUrl + tvShow!.seasons[index].posterPath!, fit: BoxFit.fill, width: 120) :
+                                return ListTile(
+                                  title: Text('Season ${tvShow!.seasons[index].seasonNumber}'),
+                                  subtitle: Text(tvShow!.seasons[index].title ?? ''),
+                                  leading: tvShow?.seasons[index].posterPath != null ?
+                                    Image.network(ApiConfig.imageBaseUrl + tvShow!.seasons[index].posterPath!, width: 100, height: 100, fit: BoxFit.cover) :
                                     Container(
                                       color: Colors.grey,
                                       child: const Icon(Icons.tv, color: Colors.white, size: 50),
                                     ),
-                                  ),
+                                  onTap: () {
+                                    Navigator.push(context,
+                                        MaterialPageRoute(builder: (context) => SeasonDetail(seasonId: tvShow!.id, seasonNumber: tvShow!.seasons[index].seasonNumber)));
+                                  },
                                 );
                               },
                               itemCount: tvShow!.numberOfSeasons,
@@ -220,38 +218,14 @@ class _TvShowDetailState extends State<TvShowDetail> {
                 ),
               ],
             ),
-            Positioned(
-              bottom: 16,
-              left: 0,
-              right: 0,
-              child: Center(
-                child: ElevatedButton(
-                  onPressed: updateWatchList,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.transparent,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          isFavorite ? Icons.favorite : Icons.favorite_border,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
           ],
-        )
-        : const Center(child: CircularProgressIndicator()),
-      );
+        ) :
+      const Center(child: CircularProgressIndicator()),
+      floatingActionButton: AddToWatchlistButton(
+        isFavorite: isFavorite,
+        updateWatchList: updateWatchList,
+      ),
+    );
   }
 }
 
