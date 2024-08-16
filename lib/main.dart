@@ -6,7 +6,7 @@ import 'package:movies_app/views/movies/carousel_movies.dart';
 import 'package:movies_app/views/movies/detail.dart';
 import 'package:movies_app/views/movies/list.dart';
 import 'package:movies_app/views/profile/watchlist.dart';
-import 'package:movies_app/views/search/search.dart';
+import 'package:movies_app/views/search/animated_search_view.dart';
 import 'package:movies_app/views/tv_shows.dart';
 import 'package:movies_app/views/tv_shows/detail.dart';
 import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
@@ -79,7 +79,6 @@ class MyApp extends StatelessWidget {
         '/movies': (context) => const HomePage(),
         '/tv_shows': (context) => const TvShows(),
         '/watchlist': (context) => const Watchlist(),
-        '/search': (context) => const Search(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == '/movie_details') {
@@ -212,6 +211,12 @@ class _MoviesState extends State<HomePage> {
             nowPlayingMovies.isEmpty ? const ShimmerLoader() : MoviesList(movies: nowPlayingMovies),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          AnimatedSearchView.show(context);
+        },
+        child: const Icon(Icons.search),
       ),
     );
   }
