@@ -124,6 +124,16 @@ class _MovieDetailState extends State<MovieDetail> {
                                   style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.white70),
                                 ),
                                 const SizedBox(height: 8),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.access_time, color: Colors.white70),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      '$hours h $minutes min',
+                                      style: const TextStyle(color: Colors.white70),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
@@ -138,17 +148,6 @@ class _MovieDetailState extends State<MovieDetail> {
                       Text(
                         movie!.overview ?? '',
                         style: const TextStyle(color: Colors.white70),
-                      ),
-                      const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          const Icon(Icons.access_time, color: Colors.white70),
-                          const SizedBox(width: 4),
-                          Text(
-                            '$hours h $minutes min',
-                            style: const TextStyle(color: Colors.white70),
-                          ),
-                        ],
                       ),
                       const SizedBox(height: 16),
                       Row(

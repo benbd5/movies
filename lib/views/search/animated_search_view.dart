@@ -109,13 +109,11 @@ class _AnimatedSearchViewState extends State<AnimatedSearchView> {
               decoration: const InputDecoration(
                 hintText: 'Search movies...',
                 border: InputBorder.none,
+                hintStyle: TextStyle(color: Colors.white70),
               ),
               onSubmitted: (value) => _searchMovies(value),
             ),
-            leading: IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
+            automaticallyImplyLeading: false,
             actions: [
               IconButton(
                 icon: const Icon(Icons.clear),
@@ -132,15 +130,9 @@ class _AnimatedSearchViewState extends State<AnimatedSearchView> {
             child: _isLoading
               ? const Center(child: CircularProgressIndicator())
               : _movies.isEmpty
-              ? Center(
-                child: Text(
-                  _textController.text.isEmpty
-                    ? 'Enter a search term'
-                    : 'No movies found. Tap anywhere to close.',
-                  textAlign: TextAlign.center,
-                ),
-              )
+              ? const SizedBox()
               : ListView.builder(
+              padding: const EdgeInsets.only(top: 0),
               itemCount: _movies.length,
               itemBuilder: (context, index) {
                 final movie = _movies[index];
@@ -149,7 +141,13 @@ class _AnimatedSearchViewState extends State<AnimatedSearchView> {
                     ? Image.network(movie.posterPath!, width: 50, fit: BoxFit.cover)
                     : const Icon(Icons.movie),
                   title: Text(movie.title ?? 'No title'),
-                  subtitle: Text(movie.releaseDate ?? 'No release date'),
+                  subtitle: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(movie.releaseDate != null ? movie.releaseDate!.substring(0, 4) : 'No release date', style: const TextStyle(fontWeight: FontWeight.w500)),
+                      Text(movie.overview ?? 'No overview', maxLines: 2, overflow: TextOverflow.ellipsis),
+                    ],
+                  ),
                   onTap: () {
                     Navigator.pushNamed(
                       context,
