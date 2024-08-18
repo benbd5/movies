@@ -24,6 +24,7 @@ class TvShowApi {
     final response = await http.get(Uri.parse(
       '${ApiConfig.baseUrl}/tv/$tvShowId?api_key=${ApiConfig.apiKey}',
     ));
+
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       return TvShow.fromJson(data);

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:isar/isar.dart';
 import 'package:movies_app/models/movie.dart';
 import 'package:movies_app/models/movie_list.dart';
+import 'package:movies_app/models/tv_show.dart';
+import 'package:movies_app/models/tv_show_list.dart';
 import 'package:movies_app/utils/isar_service.dart';
-import 'package:movies_app/utils/tmdb_api/movie_api.dart';
-import 'package:movies_app/views/movies/movie_tile.dart';
+import 'package:movies_app/views/movies/list.dart';
+import 'package:movies_app/views/tv_shows/list.dart';
 import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
-import 'package:movies_app/views/widgets/shimmer_loader.dart';
 
 class Watchlist extends StatefulWidget {
   const Watchlist({super.key});
@@ -17,49 +17,67 @@ class Watchlist extends StatefulWidget {
 
 class _WatchlistState extends State<Watchlist> {
   final IsarService isarService = IsarService();
-  late IsarCollection<Watchlist>? watchlist;
-  late Future<List<MovieList>>? _movieDetailsFuture;
 
-  List<MovieList> moviesList = [];
+  Future<Map<String, List>> _fetchWatchlistItems() async {
+    List<Movie> movies = await isarService.getAllMovies();
+    List<TvShow> tvShows = await isarService.getAllTvShows();
 
-  @override
-  void initState() {
-    _movieDetailsFuture = _getMovieDetails();
-    super.initState();
-  }
-
-  Future<List<MovieList>> _getMovieDetails() async {
-    final watchlistIds = await isarService.getAllWatchlists();
-    final movieDetails = <Movie>[];
-
-    for (final watchlistId in watchlistIds) {
-      final details = await MovieApi.getMovieDetail(watchlistId.watchId.toString());
-      movieDetails.add(details);
-    }
-
-    return transformToMovieList(movieDetails);
-  }
-
-  List<MovieList> transformToMovieList(List<Movie> movies) {
-    return movies.map((movie) => MovieList.fromMovie(movie)).toList();
+    return {
+      'movies': movies.map((movie) => MovieList.fromMovie(movie)).toList(),
+      'tvShows': tvShows.map((tvShow) => TvShowList.fromTvShow(tvShow)).toList(),
+    };
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: const Text('Watchlist'),
+      ),
       bottomNavigationBar: const BottomNavigation(selectedIndex: 2),
-      body: SingleChildScrollView(
-      padding: const EdgeInsets.only(top: 30),
-        child: FutureBuilder(
-          future: _movieDetailsFuture,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return MovieTile(movies: snapshot.data!, context: context);
-            } else {
-              return const ShimmerLoader();
-            }
-          },
-        ),
+      body: FutureBuilder<Map<String, List>>(
+        future: _fetchWatchlistItems(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || (snapshot.data!['movies']!.isEmpty && snapshot.data!['tvShows']!.isEmpty)) {
+            return const Center(child: Text('Your watchlist is empty'));
+          } else {
+            List<MovieList> movies = snapshot.data!['movies'] as List<MovieList>;
+            List<TvShowList> tvShows = snapshot.data!['tvShows'] as List<TvShowList>;
+
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (movies.isNotEmpty) ...[
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'Movies',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    MoviesList(movies: movies),
+                  ],
+                  if (tvShows.isNotEmpty) ...[
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Text(
+                        'TV Shows',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    TvShowsList(tvShows: tvShows),
+                  ],
+                ],
+              ),
+            );
+          }
+        },
       ),
     );
   }

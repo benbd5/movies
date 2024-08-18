@@ -1,3 +1,4 @@
+import 'package:movies_app/models/tv_show.dart';
 import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
 
 class TvShowList {
@@ -28,6 +29,18 @@ class TvShowList {
       posterPath: json['poster_path'] == null ? '' : ApiConfig.imageBaseUrl + json['poster_path'],
       voteAverage: json['vote_average'].toDouble(),
       voteCount: json['vote_count'].toDouble(),
+    );
+  }
+
+  factory TvShowList.fromTvShow(TvShow tvShow) {
+    return TvShowList(
+      id: tvShow.tmdbId,
+      title: tvShow.title,
+      overview: tvShow.overview,
+      firstAirDate: tvShow.firstAirDate,
+      posterPath: tvShow.posterPath ?? '',
+      voteAverage: tvShow.voteAverage,
+      voteCount: tvShow.voteCount,
     );
   }
 }

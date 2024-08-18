@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 class AddToWatchlistButton extends StatelessWidget {
   final bool isFavorite;
   final Function updateWatchList;
-  const AddToWatchlistButton({super.key, required this.isFavorite, required this.updateWatchList});
+  final dynamic item;
+
+  const AddToWatchlistButton({
+    super.key,
+    required this.isFavorite,
+    required this.updateWatchList,
+    required this.item,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class AddToWatchlistButton extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: FloatingActionButton(
             onPressed: () {
-              updateWatchList();
+              updateWatchList(item);
             },
             backgroundColor: Colors.transparent,
             foregroundColor: Colors.white,

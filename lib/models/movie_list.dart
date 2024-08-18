@@ -39,7 +39,7 @@ class MovieList {
       title: movie.title,
       overview: movie.overview,
       releaseDate: movie.releaseDate,
-      posterPath: movie.posterPath,
+      posterPath: movie.posterPath ?? '',
       voteAverage: movie.voteAverage,
       voteCount: movie.voteCount,
     );

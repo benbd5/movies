@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:movies_app/database/watchlist.dart';
+import 'package:movies_app/enum/type_enum.dart';
 import 'package:movies_app/utils/isar_service.dart';
 import 'package:movies_app/utils/tmdb_api/movie_api.dart';
 import 'package:movies_app/views/widgets/add_to_watchlist_button.dart';
@@ -20,14 +20,17 @@ class MovieDetail extends StatefulWidget {
 class _MovieDetailState extends State<MovieDetail> {
   final IsarService isarService = IsarService();
   late int movieId = widget.movieId;
-  late bool isFavorite = false;
+  // late bool isFavorite = false;
   Movie? movie;
+  late Stream<bool> _favoriteStream;
+
 
   @override
   void initState() {
-    getMovieDetail();
-    _isFavorite();
     super.initState();
+    getMovieDetail();
+    // _isFavorite();
+    _favoriteStream = isarService.watchFavoriteStatus(movieId, TypeEnum.movie);
   }
 
   Future<void> getMovieDetail() async {
@@ -41,26 +44,23 @@ class _MovieDetailState extends State<MovieDetail> {
     }
   }
 
-  Future<void> updateWatchList() async {
+  Future<void> updateWatchList(Movie movie) async {
     try {
-      final watchlist = Watchlist()
-        ..watchId = movieId
-        ..type = 'movie';
-      await isarService.addWatchlistToFavorite(watchlist);
-      setState(() {
-        isFavorite = !isFavorite;
-      });
+      await isarService.saveMovie(movie);
+      // setState(() {
+      //   isFavorite = !isFavorite;
+      // });
     } catch (e) {
       print('Error: $e');
     }
   }
 
-  Future<void> _isFavorite() async {
-    bool response = await isarService.isFavorite(movieId);
-    setState(() {
-      isFavorite = response;
-    });
-  }
+  // Future<void> _isFavorite() async {
+  //   bool response = await isarService.isFavorite(movieId, TypeEnum.movie);
+  //   setState(() {
+  //     isFavorite = response;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -174,9 +174,20 @@ class _MovieDetailState extends State<MovieDetail> {
         ],
       ) :
       const Center(child: CircularProgressIndicator()),
-      floatingActionButton: AddToWatchlistButton(
-        isFavorite: isFavorite,
-        updateWatchList: updateWatchList,
+      floatingActionButton: StreamBuilder<bool>(
+        stream: _favoriteStream,
+        builder: (context, snapshot) {
+          print(snapshot.data);
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const SizedBox();
+          }
+          bool isFavorite = snapshot.data ?? false;
+          return AddToWatchlistButton(
+            isFavorite: isFavorite,
+            updateWatchList: updateWatchList,
+            item: movie,
+          );
+        },
       ),
     );
   }

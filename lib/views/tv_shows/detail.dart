@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:movies_app/database/watchlist.dart';
+import 'package:movies_app/enum/type_enum.dart';
 import 'package:movies_app/models/tv_show.dart';
 import 'package:movies_app/utils/isar_service.dart';
 import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
@@ -35,8 +35,6 @@ class _TvShowDetailState extends State<TvShowDetail> {
   Future<void> getTvShowDetail() async {
     try {
       final tvShowResponse = await TvShowApi.getTvShowDetail(tvShowId.toString());
-      print(tvShowResponse);
-      print(tvShowResponse.title);
       setState(() {
         tvShow = tvShowResponse;
       });
@@ -45,12 +43,9 @@ class _TvShowDetailState extends State<TvShowDetail> {
     }
   }
 
-  Future<void> updateWatchList() async {
+  Future<void> updateWatchList(TvShow tvShow) async {
     try {
-      final watchlist = Watchlist()
-        ..watchId = tvShowId
-        ..type = 'tv_show';
-      await isarService.addWatchlistToFavorite(watchlist);
+      await isarService.saveTvShow(tvShow);
       setState(() {
         isFavorite = !isFavorite;
       });
@@ -60,7 +55,7 @@ class _TvShowDetailState extends State<TvShowDetail> {
   }
 
   Future<void> _isFavorite() async {
-    bool response = await isarService.isFavorite(tvShowId);
+    bool response = await isarService.isFavorite(tvShowId, TypeEnum.tvShow);
     setState(() {
       isFavorite = response;
     });
@@ -227,6 +222,7 @@ class _TvShowDetailState extends State<TvShowDetail> {
       floatingActionButton: AddToWatchlistButton(
         isFavorite: isFavorite,
         updateWatchList: updateWatchList,
+        item: tvShow,
       ),
     );
   }

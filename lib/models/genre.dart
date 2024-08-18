@@ -1,5 +1,7 @@
 import 'package:isar/isar.dart';
 
+part 'genre.g.dart';
+
 @embedded
 class Genre {
   int? tmdbId;

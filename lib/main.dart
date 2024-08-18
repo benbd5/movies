@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.deepPurple,
+          seedColor: Colors.white,
           background: Colors.black26,
         ),
         appBarTheme: const AppBarTheme(
@@ -71,8 +71,12 @@ class MyApp extends StatelessWidget {
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.black87,
-          selectedItemColor: Colors.deepPurple,
+          selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white38,
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
         ),
       ),
       home: const HomePage(),
