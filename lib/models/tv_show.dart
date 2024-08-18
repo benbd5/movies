@@ -8,7 +8,7 @@ class TvShow {
   final String overview;
   final String? posterPath;
   final String? backdropPath;
-  final String lastAirDate;
+  final String? lastAirDate;
   final double voteAverage;
   final double voteCount;
   final List<Genre> genres;
@@ -46,7 +46,7 @@ class TvShow {
       id: json['id'],
       title: json['name'],
       overview: json['overview'],
-      lastAirDate: json['last_air_date'],
+      lastAirDate: json['last_air_date'] ?? '',
       posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
       backdropPath: json['backdrop_path'] == null ? null : ApiConfig.imageBaseUrl + json['backdrop_path'],
       voteAverage: json['vote_average'].toDouble(),

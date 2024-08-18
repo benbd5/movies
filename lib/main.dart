@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:isar/isar.dart';
+import 'package:movies_app/enum/type_enum.dart';
 import 'package:movies_app/models/movie_list.dart';
 import 'package:movies_app/views/movies/carousel_movies.dart';
 import 'package:movies_app/views/movies/detail.dart';
@@ -173,10 +174,6 @@ class _MoviesState extends State<HomePage> {
         padding: const EdgeInsets.only(top: 30),
         child: Column(
           children: [
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text('Popular Movies'),
-            ),
             popularMovies.isEmpty ? const ShimmerCarouselLoader() : CarouselMovies(movies: popularMovies),
             Row(
               children: [
@@ -184,7 +181,7 @@ class _MoviesState extends State<HomePage> {
                 alignment: Alignment.centerLeft,
                 child: Text('Upcoming Movies', style: TextStyle(fontSize: 20, color: Colors.white)),
                 ),
-                const SizedBox(width: 10),
+                const SizedBox(width: 16),
                 DropdownButton<int>(
                   dropdownColor: Colors.black87,
                   value: selectedMonths,
@@ -214,7 +211,7 @@ class _MoviesState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          AnimatedSearchView.show(context);
+          AnimatedSearchView.show(context, TypeEnum.movie);
         },
         child: const Icon(Icons.search),
       ),

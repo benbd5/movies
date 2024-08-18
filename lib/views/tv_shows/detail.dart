@@ -35,6 +35,8 @@ class _TvShowDetailState extends State<TvShowDetail> {
   Future<void> getTvShowDetail() async {
     try {
       final tvShowResponse = await TvShowApi.getTvShowDetail(tvShowId.toString());
+      print(tvShowResponse);
+      print(tvShowResponse.title);
       setState(() {
         tvShow = tvShowResponse;
       });
@@ -172,13 +174,14 @@ class _TvShowDetailState extends State<TvShowDetail> {
                           ],
                         ),
                         const SizedBox(height: 16),
+                        tvShow!.lastAirDate == '' ? Container() :
                         Row(
                           children: [
                             const Text(
                               'Last air date: ',
                                 style: TextStyle(color: Colors.white70)
                             ),
-                            Text(tvShow!.lastAirDate,
+                            Text(tvShow!.lastAirDate ?? '',
                                 style: const TextStyle(color: Colors.white70)
                             ),
                           ],

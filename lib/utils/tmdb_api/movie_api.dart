@@ -2,7 +2,6 @@ import 'package:http/http.dart' as http;
 import 'package:movies_app/models/genre.dart';
 import 'package:movies_app/models/movie_list.dart';
 import 'package:movies_app/models/search_movies_list.dart';
-import 'package:movies_app/models/tv_show_list.dart';
 import 'dart:convert';
 
 import '../tmdb_api/tmdb_config.dart';
@@ -89,33 +88,7 @@ class MovieApi {
     }
   }
 
-  static Future<List<TvShowList>> getPopularTvShows() async {
-    final response = await http.get(Uri.parse(
-      '${ApiConfig.baseUrl}/tv/popular?include_adult=false&api_key=${ApiConfig.apiKey}',
-    ));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List<dynamic> results = data['results'];
-      return results.map((json) => TvShowList.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to fetch tv shows');
-    }
-  }
-
-  static Future<List<TvShowList>> getTvShowsDetail(String tvShowId) async {
-    final response = await http.get(Uri.parse(
-      '${ApiConfig.baseUrl}/tv/$tvShowId?api_key=${ApiConfig.apiKey}',
-    ));
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List<dynamic> results = data['results'];
-      return results.map((json) => TvShowList.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to fetch tv shows');
-    }
-  }
-
-  static Future<List<SearchMovieList>> searchMovies(String query) async {
+  static Future<List<SearchList>> searchMovies(String query) async {
     final response = await http.get(Uri.parse(
       '${ApiConfig.baseUrl}/search/movie?include_adult=false&query=$query&api_key=${ApiConfig.apiKey}',
     ));
@@ -123,7 +96,7 @@ class MovieApi {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final List<dynamic> results = data['results'];
-      return results.map((json) => SearchMovieList.fromJson(json)).toList();
+      return results.map((json) => SearchList.fromMoviesJson(json)).toList();
     } else {
       throw Exception('Failed to fetch movies');
     }

@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/enum/type_enum.dart';
 import 'package:movies_app/models/carousel_list.dart';
-import 'package:movies_app/models/movie_list.dart';
+import 'package:movies_app/models/tv_show_list.dart';
 import 'package:movies_app/views/widgets/carousel.dart';
 
-class CarouselMovies extends StatelessWidget {
-  final List<MovieList> movies;
-  const CarouselMovies({super.key, required this.movies});
+class CarouselTvShows extends StatelessWidget {
+  final List<TvShowList> tvShows;
+  const CarouselTvShows({super.key, required this.tvShows});
 
   @override
   Widget build(BuildContext context) {
-    final List<CarouselList> carouselList = movies
+    final List<CarouselList> carouselList = tvShows
       .map((movie) => CarouselList(
         id: movie.id,
         posterPath: movie.posterPath,
-        type: TypeEnum.movie,
-        length: movies.length,
+        type: TypeEnum.tvShow,
+        length: tvShows.length,
         )
       ).toList();
 

@@ -2,15 +2,19 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:movies_app/enum/type_enum.dart';
+import 'package:movies_app/models/carousel_list.dart';
+
+import 'background_image_opacity.dart';
 
 class CarouselWidget extends StatefulWidget {
   const CarouselWidget({
     super.key,
-    required this.movies,
+    required this.carouselList,
     required this.context,
   });
 
-  final List<dynamic> movies;
+  final List<CarouselList> carouselList;
   final BuildContext context;
 
   @override
@@ -18,24 +22,31 @@ class CarouselWidget extends StatefulWidget {
 }
 
 class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStateMixin {
-  late PageController pageController;
+  late PageController backgroundPageController;
+  late PageController foregroundPageController;
   late AnimationController timerController;
   int activePage = 0;
 
   @override
   void initState() {
     super.initState();
+    backgroundPageController = PageController(viewportFraction: 1.0, initialPage: 0);
+    foregroundPageController = PageController(viewportFraction: 0.6, initialPage: 0);
     timerController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 5),
     )..addListener(() {
-      setState(() {
-      });
+      setState(() {});
       if (timerController.isCompleted) {
-        if (activePage == widget.movies.length - 1) {
-          pageController.jumpToPage(0);
+        if (activePage == widget.carouselList.length - 1) {
+          backgroundPageController.jumpToPage(0);
+          foregroundPageController.jumpToPage(0);
         } else {
-          pageController.nextPage(
+          backgroundPageController.nextPage(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOutCubic,
+          );
+          foregroundPageController.nextPage(
             duration: const Duration(milliseconds: 300),
             curve: Curves.easeInOutCubic,
           );
@@ -44,13 +55,13 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
         timerController.forward();
       }
     });
-    pageController = PageController(viewportFraction: 0.6, initialPage: 0);
     timerController.forward();
   }
 
   @override
   void dispose() {
-    pageController.dispose();
+    backgroundPageController.dispose();
+    foregroundPageController.dispose();
     timerController.dispose();
     super.dispose();
   }
@@ -61,27 +72,57 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
       children: [
         SizedBox(
           height: 320,
-          child: PageView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: widget.movies.length,
-            pageSnapping: true,
-            controller: pageController,
-            onPageChanged: (page) {
-              setState(() {
-                activePage = page;
-                timerController.reset();
-                timerController.forward();
-              });
-            },
-            itemBuilder: (context, index) {
-              bool active = index == activePage;
-              return slider(widget.movies, index, active);
-            },
+          child: Stack(
+            children: [
+              PageView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: widget.carouselList.length,
+                controller: backgroundPageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    activePage = page;
+                    foregroundPageController.animateToPage(
+                      page,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOutCubic,
+                    );
+                    timerController.reset();
+                    timerController.forward();
+                  });
+                },
+                itemBuilder: (context, index) {
+                  return BackgroundImageOpacity(
+                    posterPath: widget.carouselList[index].posterPath,
+                  );
+                },
+              ),
+              PageView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: widget.carouselList.length,
+                controller: foregroundPageController,
+                onPageChanged: (page) {
+                  setState(() {
+                    activePage = page;
+                    backgroundPageController.animateToPage(
+                      page,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeInOutCubic,
+                    );
+                    timerController.reset();
+                    timerController.forward();
+                  });
+                },
+                itemBuilder: (context, index) {
+                  bool active = index == activePage;
+                  return slider(widget.carouselList, index, active);
+                },
+              ),
+            ],
           ),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: indicators(widget.movies.length, activePage),
+          children: indicators(widget.carouselList.length, activePage),
         ),
       ],
     );
@@ -96,11 +137,11 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
     precacheImage(image.image, context);
 
     return AnimatedBuilder(
-      animation: pageController,
+      animation: foregroundPageController,
       builder: (context, child) {
       double value = 1;
-        if (pageController.position.haveDimensions) {
-          value = pageController.page! - pagePosition;
+        if (foregroundPageController.position.haveDimensions) {
+          value = foregroundPageController.page! - pagePosition;
           value = (1 - (value.abs() * 0.3)).clamp(0.0, 1.0);
         }
         return Center(
@@ -121,8 +162,8 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
             onTap: () {
               Navigator.pushNamed(
                 context,
-                '/movie_details',
-                arguments: widget.movies[pagePosition].id,
+                widget.carouselList[pagePosition].type == TypeEnum.tvShow ? '/tv_show_details' : '/movie_details',
+                arguments: widget.carouselList[pagePosition].id,
               );
             },
             child: Container(
@@ -130,7 +171,7 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
               width: 150,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: widget.movies[pagePosition].posterPath != null
+                child: widget.carouselList[pagePosition].posterPath != null
                 ? image :
                 Container(
                   color: Colors.grey.withOpacity(0.25),
