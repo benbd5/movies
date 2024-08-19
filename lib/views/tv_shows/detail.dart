@@ -6,7 +6,7 @@ import 'package:movies_app/models/tv_show.dart';
 import 'package:movies_app/utils/isar_service.dart';
 import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
 import 'package:movies_app/utils/tmdb_api/tv_show_api.dart';
-import 'package:movies_app/views/seasons/detail.dart';
+import 'package:movies_app/views/tv_shows/seasons/detail.dart';
 import 'package:movies_app/views/widgets/add_to_watchlist_button.dart';
 import 'package:movies_app/views/widgets/star_rating.dart';
 
@@ -202,7 +202,7 @@ class _TvShowDetailState extends State<TvShowDetail> {
                                     ),
                                   onTap: () {
                                     Navigator.push(context,
-                                        MaterialPageRoute(builder: (context) => SeasonDetail(seasonId: tvShow!.id, seasonNumber: tvShow!.seasons[index].seasonNumber)));
+                                        MaterialPageRoute(builder: (context) => SeasonDetail(tvShowId: tvShow!.tmdbId, seasonNumber: tvShow!.seasons[index].seasonNumber)));
                                   },
                                 );
                               },

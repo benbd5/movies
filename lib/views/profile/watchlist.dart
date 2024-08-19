@@ -33,7 +33,6 @@ class _WatchlistState extends State<Watchlist> {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: const Text('Watchlist'),
       ),
       bottomNavigationBar: const BottomNavigation(selectedIndex: 2),
       body: FutureBuilder<Map<String, List>>(

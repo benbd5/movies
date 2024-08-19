@@ -128,12 +128,7 @@ int _movieEstimateSize(
       }
     }
   }
-  {
-    final value = object.imdbId;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.imdbId.length * 3;
   {
     final list = object.originCountries;
     if (list != null) {
@@ -146,18 +141,8 @@ int _movieEstimateSize(
       }
     }
   }
-  {
-    final value = object.originalLanguage;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.overview;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.originalLanguage.length * 3;
+  bytesCount += 3 + object.overview.length * 3;
   {
     final value = object.posterPath;
     if (value != null) {
@@ -170,18 +155,8 @@ int _movieEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
-  {
-    final value = object.status;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
-  {
-    final value = object.title;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
+  bytesCount += 3 + object.status.length * 3;
+  bytesCount += 3 + object.title.length * 3;
   return bytesCount;
 }
 
@@ -226,18 +201,18 @@ Movie _movieDeserialize(
       allOffsets,
       Genre(),
     ),
-    imdbId: reader.readStringOrNull(offsets[2]),
+    imdbId: reader.readString(offsets[2]),
     originCountries: reader.readStringList(offsets[3]),
-    originalLanguage: reader.readStringOrNull(offsets[4]),
-    overview: reader.readStringOrNull(offsets[5]),
+    originalLanguage: reader.readString(offsets[4]),
+    overview: reader.readString(offsets[5]),
     posterPath: reader.readStringOrNull(offsets[6]),
     releaseDate: reader.readStringOrNull(offsets[7]),
-    runtime: reader.readLongOrNull(offsets[8]),
-    status: reader.readStringOrNull(offsets[9]),
-    title: reader.readStringOrNull(offsets[10]),
-    tmdbId: reader.readLongOrNull(offsets[11]),
-    voteAverage: reader.readDoubleOrNull(offsets[12]),
-    voteCount: reader.readDoubleOrNull(offsets[13]),
+    runtime: reader.readLong(offsets[8]),
+    status: reader.readString(offsets[9]),
+    title: reader.readString(offsets[10]),
+    tmdbId: reader.readLong(offsets[11]),
+    voteAverage: reader.readDouble(offsets[12]),
+    voteCount: reader.readDouble(offsets[13]),
   );
   object.id = id;
   return object;
@@ -260,29 +235,29 @@ P _movieDeserializeProp<P>(
         Genre(),
       )) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
       return (reader.readStringList(offset)) as P;
     case 4:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 5:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
       return (reader.readStringOrNull(offset)) as P;
     case 8:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 9:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 10:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 11:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 12:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     case 13:
-      return (reader.readDoubleOrNull(offset)) as P;
+      return (reader.readDouble(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
   }
@@ -674,24 +649,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> imdbIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'imdbId',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> imdbIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'imdbId',
-      ));
-    });
-  }
-
   QueryBuilder<Movie, Movie, QAfterFilterCondition> imdbIdEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -704,7 +663,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> imdbIdGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -719,7 +678,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> imdbIdLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -734,8 +693,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> imdbIdBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1061,25 +1020,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> originalLanguageIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'originalLanguage',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition>
-      originalLanguageIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'originalLanguage',
-      ));
-    });
-  }
-
   QueryBuilder<Movie, Movie, QAfterFilterCondition> originalLanguageEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1092,7 +1034,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> originalLanguageGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1107,7 +1049,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> originalLanguageLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1122,8 +1064,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> originalLanguageBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1209,24 +1151,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> overviewIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'overview',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> overviewIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'overview',
-      ));
-    });
-  }
-
   QueryBuilder<Movie, Movie, QAfterFilterCondition> overviewEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1239,7 +1165,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> overviewGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1254,7 +1180,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> overviewLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1269,8 +1195,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> overviewBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1647,23 +1573,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> runtimeIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'runtime',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> runtimeIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'runtime',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> runtimeEqualTo(int? value) {
+  QueryBuilder<Movie, Movie, QAfterFilterCondition> runtimeEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'runtime',
@@ -1673,7 +1583,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> runtimeGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1686,7 +1596,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> runtimeLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1699,8 +1609,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> runtimeBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -1715,24 +1625,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> statusIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'status',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> statusIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'status',
-      ));
-    });
-  }
-
   QueryBuilder<Movie, Movie, QAfterFilterCondition> statusEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1745,7 +1639,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> statusGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1760,7 +1654,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> statusLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1775,8 +1669,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> statusBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -1860,24 +1754,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> titleIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'title',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> titleIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'title',
-      ));
-    });
-  }
-
   QueryBuilder<Movie, Movie, QAfterFilterCondition> titleEqualTo(
-    String? value, {
+    String value, {
     bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -1890,7 +1768,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> titleGreaterThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1905,7 +1783,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> titleLessThan(
-    String? value, {
+    String value, {
     bool include = false,
     bool caseSensitive = true,
   }) {
@@ -1920,8 +1798,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> titleBetween(
-    String? lower,
-    String? upper, {
+    String lower,
+    String upper, {
     bool includeLower = true,
     bool includeUpper = true,
     bool caseSensitive = true,
@@ -2004,23 +1882,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> tmdbIdIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'tmdbId',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> tmdbIdIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'tmdbId',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> tmdbIdEqualTo(int? value) {
+  QueryBuilder<Movie, Movie, QAfterFilterCondition> tmdbIdEqualTo(int value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'tmdbId',
@@ -2030,7 +1892,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> tmdbIdGreaterThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2043,7 +1905,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> tmdbIdLessThan(
-    int? value, {
+    int value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2056,8 +1918,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> tmdbIdBetween(
-    int? lower,
-    int? upper, {
+    int lower,
+    int upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {
@@ -2072,24 +1934,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> voteAverageIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'voteAverage',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> voteAverageIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'voteAverage',
-      ));
-    });
-  }
-
   QueryBuilder<Movie, Movie, QAfterFilterCondition> voteAverageEqualTo(
-    double? value, {
+    double value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2102,7 +1948,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> voteAverageGreaterThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -2117,7 +1963,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> voteAverageLessThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -2132,8 +1978,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> voteAverageBetween(
-    double? lower,
-    double? upper, {
+    double lower,
+    double upper, {
     bool includeLower = true,
     bool includeUpper = true,
     double epsilon = Query.epsilon,
@@ -2150,24 +1996,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
     });
   }
 
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> voteCountIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'voteCount',
-      ));
-    });
-  }
-
-  QueryBuilder<Movie, Movie, QAfterFilterCondition> voteCountIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'voteCount',
-      ));
-    });
-  }
-
   QueryBuilder<Movie, Movie, QAfterFilterCondition> voteCountEqualTo(
-    double? value, {
+    double value, {
     double epsilon = Query.epsilon,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -2180,7 +2010,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> voteCountGreaterThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -2195,7 +2025,7 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> voteCountLessThan(
-    double? value, {
+    double value, {
     bool include = false,
     double epsilon = Query.epsilon,
   }) {
@@ -2210,8 +2040,8 @@ extension MovieQueryFilter on QueryBuilder<Movie, Movie, QFilterCondition> {
   }
 
   QueryBuilder<Movie, Movie, QAfterFilterCondition> voteCountBetween(
-    double? lower,
-    double? upper, {
+    double lower,
+    double upper, {
     bool includeLower = true,
     bool includeUpper = true,
     double epsilon = Query.epsilon,
@@ -2652,7 +2482,7 @@ extension MovieQueryProperty on QueryBuilder<Movie, Movie, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Movie, String?, QQueryOperations> imdbIdProperty() {
+  QueryBuilder<Movie, String, QQueryOperations> imdbIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'imdbId');
     });
@@ -2665,13 +2495,13 @@ extension MovieQueryProperty on QueryBuilder<Movie, Movie, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Movie, String?, QQueryOperations> originalLanguageProperty() {
+  QueryBuilder<Movie, String, QQueryOperations> originalLanguageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'originalLanguage');
     });
   }
 
-  QueryBuilder<Movie, String?, QQueryOperations> overviewProperty() {
+  QueryBuilder<Movie, String, QQueryOperations> overviewProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'overview');
     });
@@ -2689,37 +2519,37 @@ extension MovieQueryProperty on QueryBuilder<Movie, Movie, QQueryProperty> {
     });
   }
 
-  QueryBuilder<Movie, int?, QQueryOperations> runtimeProperty() {
+  QueryBuilder<Movie, int, QQueryOperations> runtimeProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'runtime');
     });
   }
 
-  QueryBuilder<Movie, String?, QQueryOperations> statusProperty() {
+  QueryBuilder<Movie, String, QQueryOperations> statusProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'status');
     });
   }
 
-  QueryBuilder<Movie, String?, QQueryOperations> titleProperty() {
+  QueryBuilder<Movie, String, QQueryOperations> titleProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'title');
     });
   }
 
-  QueryBuilder<Movie, int?, QQueryOperations> tmdbIdProperty() {
+  QueryBuilder<Movie, int, QQueryOperations> tmdbIdProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'tmdbId');
     });
   }
 
-  QueryBuilder<Movie, double?, QQueryOperations> voteAverageProperty() {
+  QueryBuilder<Movie, double, QQueryOperations> voteAverageProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'voteAverage');
     });
   }
 
-  QueryBuilder<Movie, double?, QQueryOperations> voteCountProperty() {
+  QueryBuilder<Movie, double, QQueryOperations> voteCountProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'voteCount');
     });

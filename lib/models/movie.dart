@@ -8,36 +8,36 @@ part 'movie.g.dart';
 @collection
 class Movie {
   Id id = Isar.autoIncrement;
-  int? tmdbId;
-  String? title;
-  String? overview;
+  int tmdbId;
+  String title;
+  String overview;
   String? posterPath;
   String? backdropPath;
   String? releaseDate;
-  double? voteAverage;
-  double? voteCount;
+  double voteAverage;
+  double voteCount;
   List<Genre>? genres = [];
-  String? imdbId;
+  String imdbId;
   List<String>? originCountries;
-  String? originalLanguage;
-  int? runtime;
-  String? status;
+  String originalLanguage;
+  int runtime;
+  String status;
 
   Movie({
-    this.tmdbId,
-    this.title,
-    this.overview,
-    this.posterPath,
-    this.backdropPath,
-    this.releaseDate,
-    this.voteAverage,
-    this.voteCount,
-    this.genres,
-    this.imdbId,
-    this.originCountries,
-    this.originalLanguage,
-    this.runtime,
-    this.status,
+    required this.tmdbId,
+    required this.title,
+    required this.overview,
+    required this.posterPath,
+    required this.backdropPath,
+    required this.releaseDate,
+    required this.voteAverage,
+    required this.voteCount,
+    required this.genres,
+    required this.imdbId,
+    required this.originCountries,
+    required this.originalLanguage,
+    required this.runtime,
+    required this.status,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
@@ -66,12 +66,19 @@ class Movie {
   factory Movie.fromMovieList(MovieList movie) {
     return Movie(
       tmdbId: movie.id,
-      title: movie.title,
-      overview: movie.overview,
+      title: movie.title ?? '',
+      overview: movie.overview ?? '',
       releaseDate: movie.releaseDate,
       posterPath: movie.posterPath,
-      voteAverage: movie.voteAverage,
-      voteCount: movie.voteCount,
+      voteAverage: movie.voteAverage ?? 0,
+      voteCount: movie.voteCount ?? 0,
+      backdropPath: '',
+      genres: [],
+      imdbId: '',
+      originCountries: [],
+      originalLanguage: '',
+      runtime: 0,
+      status: '',
     );
   }
 }

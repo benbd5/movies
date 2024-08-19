@@ -11,9 +11,9 @@ class CarouselTvShows extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<CarouselList> carouselList = tvShows
-      .map((movie) => CarouselList(
-        id: movie.id,
-        posterPath: movie.posterPath,
+      .map((tvShow) => CarouselList(
+        id: tvShow.id,
+        posterPath: tvShow.posterPath,
         type: TypeEnum.tvShow,
         length: tvShows.length,
         )

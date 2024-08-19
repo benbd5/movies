@@ -1,3 +1,5 @@
+import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
+
 class SeasonList {
   final int id;
   final String? airDate;
@@ -26,7 +28,7 @@ class SeasonList {
       episodeCount: json['episode_count'],
       title: json['name'],
       overview: json['overview'],
-      posterPath: json['poster_path'],
+      posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
       seasonNumber: json['season_number'],
       voteAverage: json['vote_average'],
     );

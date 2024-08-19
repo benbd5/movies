@@ -1,3 +1,5 @@
+import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
+
 import 'episode.dart';
 
 class Season {
@@ -27,7 +29,7 @@ class Season {
       airDate: json['air_date'],
       title: json['name'],
       overview: json['overview'],
-      posterPath: json['poster_path'],
+      posterPath: json['poster_path'] == null ? null : ApiConfig.imageBaseUrl + json['poster_path'],
       seasonNumber: json['season_number'],
       voteAverage: json['vote_average'],
       episodes: json['episodes']?.map<Episode>((episode) => Episode.fromJson(episode)).toList(),
