@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/models/tv_show_list.dart';
+import 'package:yeez/models/tv_show_list.dart';
 
 class TvShowTile extends StatelessWidget {
   const TvShowTile({

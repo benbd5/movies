@@ -1,8 +1,8 @@
-import 'package:movies_app/enum/type_enum.dart';
+import 'package:yeez/enum/type_enum.dart';
 
 class CarouselList {
   final int id;
-  final String posterPath;
+  final String? posterPath;
   final TypeEnum type;
   final int length;
 

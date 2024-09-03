@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
-import 'package:movies_app/models/genre.dart';
-import 'package:movies_app/models/movie_list.dart';
-import 'package:movies_app/models/search_movies_list.dart';
+import 'package:yeez/models/genre.dart';
+import 'package:yeez/models/movie_list.dart';
+import 'package:yeez/models/search_movies_list.dart';
 import 'dart:convert';
 
 import '../tmdb_api/tmdb_config.dart';

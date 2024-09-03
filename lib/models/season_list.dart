@@ -1,4 +1,4 @@
-import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
+import 'package:yeez/utils/tmdb_api/tmdb_config.dart';
 
 class SeasonList {
   final int id;

@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/enum/type_enum.dart';
-import 'package:movies_app/models/carousel_list.dart';
+import 'package:yeez/enum/type_enum.dart';
+import 'package:yeez/models/carousel_list.dart';
 
 import 'background_image_opacity.dart';
 
@@ -18,7 +18,7 @@ class CarouselWidget extends StatefulWidget {
   final BuildContext context;
 
   @override
-  _CarouselWidgetState createState() => _CarouselWidgetState();
+  State<CarouselWidget> createState() => _CarouselWidgetState();
 }
 
 class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStateMixin {
@@ -92,7 +92,7 @@ class _CarouselWidgetState extends State<CarouselWidget> with TickerProviderStat
                 },
                 itemBuilder: (context, index) {
                   return BackgroundImageOpacity(
-                    posterPath: widget.carouselList[index].posterPath,
+                    posterPath: widget.carouselList[index].posterPath ?? '',
                   );
                 },
               ),

@@ -1,12 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:movies_app/enum/type_enum.dart';
-import 'package:movies_app/utils/isar_service.dart';
-import 'package:movies_app/utils/tmdb_api/movie_api.dart';
-import 'package:movies_app/views/widgets/add_to_watchlist_button.dart';
-import 'package:movies_app/views/widgets/star_rating.dart';
-import 'package:movies_app/models/movie.dart';
+import 'package:yeez/enum/type_enum.dart';
+import 'package:yeez/utils/isar_service.dart';
+import 'package:yeez/utils/tmdb_api/movie_api.dart';
+import 'package:yeez/views/widgets/add_to_watchlist_button.dart';
+import 'package:yeez/views/widgets/star_rating.dart';
+import 'package:yeez/models/movie.dart';
 
 class MovieDetail extends StatefulWidget {
   final int movieId;
@@ -37,9 +37,7 @@ class _MovieDetailState extends State<MovieDetail> {
       setState(() {
         movie = movieResponse;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> updateWatchList(Movie movie) async {
@@ -53,9 +51,7 @@ class _MovieDetailState extends State<MovieDetail> {
       setState(() {
         isFavorite = !isFavorite;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _isFavorite() async {
@@ -67,8 +63,8 @@ class _MovieDetailState extends State<MovieDetail> {
 
   @override
   Widget build(BuildContext context) {
-    int hours = movie != null ? movie!.runtime! ~/ 60 : 0;
-    int minutes = movie != null ? movie!.runtime! % 60 : 0;
+    int hours = movie != null ? movie!.runtime ~/ 60 : 0;
+    int minutes = movie != null ? movie!.runtime % 60 : 0;
 
     return Scaffold(
       body: movie != null
@@ -118,7 +114,7 @@ class _MovieDetailState extends State<MovieDetail> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  movie!.title ?? '',
+                                  movie!.title,
                                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white),
                                 ),
                                 const SizedBox(height: 8),
@@ -149,21 +145,21 @@ class _MovieDetailState extends State<MovieDetail> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        movie!.overview ?? '',
+                        movie!.overview,
                         style: const TextStyle(color: Colors.white70),
                       ),
                       const SizedBox(height: 16),
                       Row(
                         children: [
-                          StarRating(rating: movie!.voteAverage! / 2),
+                          StarRating(rating: movie!.voteAverage / 2),
                           const SizedBox(width: 4),
                           Text(
-                            '${movie!.voteAverage?.toStringAsFixed(1)} / 10',
+                            '${movie!.voteAverage.toStringAsFixed(1)} / 10',
                             style: const TextStyle(color: Colors.white),
                           ),
                           const SizedBox(width: 8),
                           Text(
-                              '(${movie!.voteCount?.floor()} votes)',
+                              '(${movie!.voteCount.floor()} votes)',
                             style: const TextStyle(color: Colors.white70)
                           ),
                         ],

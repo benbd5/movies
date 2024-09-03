@@ -1,7 +1,7 @@
 import 'package:isar/isar.dart';
-import 'package:movies_app/models/genre.dart';
-import 'package:movies_app/models/season_list.dart';
-import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
+import 'package:yeez/models/genre.dart';
+import 'package:yeez/models/season_list.dart';
+import 'package:yeez/utils/tmdb_api/tmdb_config.dart';
 
 part 'tv_show.g.dart';
 

@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:isar/isar.dart';
-import 'package:movies_app/enum/type_enum.dart';
-import 'package:movies_app/models/movie_list.dart';
-import 'package:movies_app/views/movies/carousel_movies.dart';
-import 'package:movies_app/views/movies/detail.dart';
-import 'package:movies_app/views/movies/list.dart';
-import 'package:movies_app/views/profile/watchlist.dart';
-import 'package:movies_app/views/search/animated_search_view.dart';
-import 'package:movies_app/views/tv_shows.dart';
-import 'package:movies_app/views/tv_shows/detail.dart';
-import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
-import 'package:movies_app/views/widgets/shimmer_carousel_loader.dart';
-import 'package:movies_app/views/widgets/shimmer_loader.dart';
+import 'package:yeez/enum/type_enum.dart';
+import 'package:yeez/models/movie_list.dart';
+import 'package:yeez/views/movies/carousel_movies.dart';
+import 'package:yeez/views/movies/detail.dart';
+import 'package:yeez/views/movies/list.dart';
+import 'package:yeez/views/profile/watchlist.dart';
+import 'package:yeez/views/search/animated_search_view.dart';
+import 'package:yeez/views/tv_shows.dart';
+import 'package:yeez/views/tv_shows/detail.dart';
+import 'package:yeez/views/widgets/bottom_navigation_bar.dart';
+import 'package:yeez/views/widgets/shimmer_carousel_loader.dart';
+import 'package:yeez/views/widgets/shimmer_loader.dart';
 import 'utils/tmdb_api/movie_api.dart';
 import 'models/genre.dart';
 
@@ -131,9 +131,7 @@ class _MoviesState extends State<HomePage> {
       setState(() {
         genres = getGenres;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> getPopularMovies() async {
@@ -142,9 +140,7 @@ class _MoviesState extends State<HomePage> {
       setState(() {
         popularMovies = getMovies;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> getUpcomingMovies() async {
@@ -153,9 +149,7 @@ class _MoviesState extends State<HomePage> {
       setState(() {
         discoverMovies = getMovies;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> getNowPlayingMovies() async {
@@ -164,9 +158,7 @@ class _MoviesState extends State<HomePage> {
       setState(() {
         nowPlayingMovies = getMovies;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   @override

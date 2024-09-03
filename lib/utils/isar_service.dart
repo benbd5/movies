@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:movies_app/enum/type_enum.dart';
-import 'package:movies_app/models/movie.dart';
-import 'package:movies_app/models/tv_show.dart';
+import 'package:yeez/enum/type_enum.dart';
+import 'package:yeez/models/movie.dart';
+import 'package:yeez/models/tv_show.dart';
 import 'package:path_provider/path_provider.dart';
 
 class IsarService {

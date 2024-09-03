@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:movies_app/enum/type_enum.dart';
-import 'package:movies_app/models/search_movies_list.dart';
-import 'package:movies_app/models/tv_show_list.dart';
-import 'package:movies_app/utils/tmdb_api/movie_api.dart';
-import 'package:movies_app/utils/tmdb_api/tv_show_api.dart';
+import 'package:yeez/enum/type_enum.dart';
+import 'package:yeez/models/search_movies_list.dart';
+import 'package:yeez/models/tv_show_list.dart';
+import 'package:yeez/utils/tmdb_api/movie_api.dart';
+import 'package:yeez/utils/tmdb_api/tv_show_api.dart';
 
 class AnimatedSearchView extends StatefulWidget {
   final BuildContext parentContext;
@@ -17,7 +17,7 @@ class AnimatedSearchView extends StatefulWidget {
   });
 
   @override
-  _AnimatedSearchViewState createState() => _AnimatedSearchViewState();
+  State<AnimatedSearchView> createState() => _AnimatedSearchViewState();
 
   static void show(BuildContext context, TypeEnum searchType) {
     showGeneralDialog(
@@ -166,7 +166,9 @@ class _AnimatedSearchViewState extends State<AnimatedSearchView> {
 
     if (item is SearchList) {
       title = item.title ?? 'No title';
-      releaseDate = item.releaseDate != null ? item.releaseDate!.substring(0, 4) : 'No release date';
+      releaseDate = item.releaseDate != null && item.releaseDate!.length >= 4
+          ? item.releaseDate!.substring(0, 4)
+          : 'No release date';
       overview = item.overview ?? 'No overview';
       posterPath = item.posterPath;
       id = item.id;

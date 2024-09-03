@@ -1,4 +1,4 @@
-# movies_app
+# yeez
 
 Stay up to date on the latest movies
 

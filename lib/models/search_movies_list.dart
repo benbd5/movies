@@ -1,4 +1,4 @@
-import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
+import 'package:yeez/utils/tmdb_api/tmdb_config.dart';
 
 import 'movie.dart';
 
@@ -47,7 +47,7 @@ class SearchList {
 
   factory SearchList.fromMovie(Movie movie) {
     return SearchList(
-      id: movie.tmdbId!,
+      id: movie.tmdbId,
       title: movie.title,
       overview: movie.overview,
       releaseDate: movie.releaseDate,

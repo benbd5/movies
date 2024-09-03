@@ -1,14 +1,14 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:movies_app/enum/type_enum.dart';
-import 'package:movies_app/models/tv_show.dart';
-import 'package:movies_app/utils/isar_service.dart';
-import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
-import 'package:movies_app/utils/tmdb_api/tv_show_api.dart';
-import 'package:movies_app/views/tv_shows/seasons/detail.dart';
-import 'package:movies_app/views/widgets/add_to_watchlist_button.dart';
-import 'package:movies_app/views/widgets/star_rating.dart';
+import 'package:yeez/enum/type_enum.dart';
+import 'package:yeez/models/tv_show.dart';
+import 'package:yeez/utils/isar_service.dart';
+import 'package:yeez/utils/tmdb_api/tmdb_config.dart';
+import 'package:yeez/utils/tmdb_api/tv_show_api.dart';
+import 'package:yeez/views/tv_shows/seasons/detail.dart';
+import 'package:yeez/views/widgets/add_to_watchlist_button.dart';
+import 'package:yeez/views/widgets/star_rating.dart';
 
 class TvShowDetail extends StatefulWidget {
   final int tvShowId;
@@ -38,9 +38,7 @@ class _TvShowDetailState extends State<TvShowDetail> {
       setState(() {
         tvShow = tvShowResponse;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> updateWatchList(TvShow tvShow) async {
@@ -49,9 +47,7 @@ class _TvShowDetailState extends State<TvShowDetail> {
       setState(() {
         isFavorite = !isFavorite;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> _isFavorite() async {
@@ -111,7 +107,7 @@ class _TvShowDetailState extends State<TvShowDetail> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    tvShow!.title ?? '',
+                                    tvShow!.title,
                                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white),
                                   ),
                                   const SizedBox(height: 8),
@@ -149,7 +145,7 @@ class _TvShowDetailState extends State<TvShowDetail> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          tvShow!.overview ?? '',
+                          tvShow!.overview,
                           style: const TextStyle(color: Colors.white70),
                         ),
                         const SizedBox(height: 16),

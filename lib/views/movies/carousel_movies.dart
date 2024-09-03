@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/enum/type_enum.dart';
-import 'package:movies_app/models/carousel_list.dart';
-import 'package:movies_app/models/movie_list.dart';
-import 'package:movies_app/views/widgets/carousel.dart';
+import 'package:yeez/enum/type_enum.dart';
+import 'package:yeez/models/carousel_list.dart';
+import 'package:yeez/models/movie_list.dart';
+import 'package:yeez/views/widgets/carousel.dart';
 
 class CarouselMovies extends StatelessWidget {
   final List<MovieList> movies;

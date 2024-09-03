@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/enum/type_enum.dart';
-import 'package:movies_app/models/tv_show_list.dart';
-import 'package:movies_app/utils/tmdb_api/tv_show_api.dart';
-import 'package:movies_app/views/search/animated_search_view.dart';
-import 'package:movies_app/views/tv_shows/carousel_tv_shows.dart';
-import 'package:movies_app/views/tv_shows/list.dart';
-import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
-import 'package:movies_app/views/widgets/shimmer_loader.dart';
+import 'package:yeez/enum/type_enum.dart';
+import 'package:yeez/models/tv_show_list.dart';
+import 'package:yeez/utils/tmdb_api/tv_show_api.dart';
+import 'package:yeez/views/search/animated_search_view.dart';
+import 'package:yeez/views/tv_shows/carousel_tv_shows.dart';
+import 'package:yeez/views/tv_shows/list.dart';
+import 'package:yeez/views/widgets/bottom_navigation_bar.dart';
+import 'package:yeez/views/widgets/shimmer_loader.dart';
 
 class TvShows extends StatefulWidget {
   const TvShows({super.key});
@@ -33,9 +33,7 @@ class _TvShowsState extends State<TvShows> {
       setState(() {
         popularTvShows = getTvShows;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   Future<void> getUpcomingTvShows() async {
@@ -44,9 +42,7 @@ class _TvShowsState extends State<TvShows> {
       setState(() {
         discoverTvShows = getTvShows;
       });
-    } catch (e) {
-      print('Error: $e');
-    }
+    } catch (e) {}
   }
 
   @override

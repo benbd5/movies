@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/models/movie_list.dart';
+import 'package:yeez/models/movie_list.dart';
 
 class MovieTile extends StatelessWidget {
   const MovieTile({

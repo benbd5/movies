@@ -1,8 +1,8 @@
 import 'package:http/http.dart' as http;
-import 'package:movies_app/models/search_movies_list.dart';
-import 'package:movies_app/models/season.dart';
-import 'package:movies_app/models/tv_show.dart';
-import 'package:movies_app/models/tv_show_list.dart';
+import 'package:yeez/models/search_movies_list.dart';
+import 'package:yeez/models/season.dart';
+import 'package:yeez/models/tv_show.dart';
+import 'package:yeez/models/tv_show_list.dart';
 import 'dart:convert';
 import '../tmdb_api/tmdb_config.dart';
 

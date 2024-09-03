@@ -1,10 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:movies_app/models/season.dart';
-import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
-import 'package:movies_app/utils/tmdb_api/tv_show_api.dart';
-import 'package:movies_app/views/widgets/star_rating.dart';
+import 'package:yeez/models/season.dart';
+import 'package:yeez/utils/tmdb_api/tmdb_config.dart';
+import 'package:yeez/utils/tmdb_api/tv_show_api.dart';
+import 'package:yeez/views/widgets/star_rating.dart';
 
 class SeasonDetail extends StatefulWidget {
   final int tvShowId;
@@ -34,7 +34,7 @@ class _SeasonDetail extends State<SeasonDetail> {
         season = seasonResponse;
       });
     } catch (e) {
-      print('Error: $e');
+
     }
   }
 

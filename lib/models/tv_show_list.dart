@@ -1,5 +1,5 @@
-import 'package:movies_app/models/tv_show.dart';
-import 'package:movies_app/utils/tmdb_api/tmdb_config.dart';
+import 'package:yeez/models/tv_show.dart';
+import 'package:yeez/utils/tmdb_api/tmdb_config.dart';
 
 class TvShowList {
   final int id;

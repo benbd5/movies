@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/models/tv_show_list.dart';
-import 'package:movies_app/views/tv_shows/tv_show_tile.dart';
+import 'package:yeez/models/tv_show_list.dart';
+import 'package:yeez/views/tv_shows/tv_show_tile.dart';
 
 class TvShowsList extends StatelessWidget {
   final List<TvShowList> tvShows;

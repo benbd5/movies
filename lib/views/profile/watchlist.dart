@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/models/movie.dart';
-import 'package:movies_app/models/movie_list.dart';
-import 'package:movies_app/models/tv_show.dart';
-import 'package:movies_app/models/tv_show_list.dart';
-import 'package:movies_app/utils/isar_service.dart';
-import 'package:movies_app/views/movies/list.dart';
-import 'package:movies_app/views/tv_shows/list.dart';
-import 'package:movies_app/views/widgets/bottom_navigation_bar.dart';
+import 'package:yeez/models/movie.dart';
+import 'package:yeez/models/movie_list.dart';
+import 'package:yeez/models/tv_show.dart';
+import 'package:yeez/models/tv_show_list.dart';
+import 'package:yeez/utils/isar_service.dart';
+import 'package:yeez/views/movies/list.dart';
+import 'package:yeez/views/tv_shows/list.dart';
+import 'package:yeez/views/widgets/bottom_navigation_bar.dart';
 
 class Watchlist extends StatefulWidget {
   const Watchlist({super.key});
