@@ -1,6 +1,6 @@
 # Flutter Movies and Watchlist App
 
-Stay up to date on the latest movies and tv series with this FLutter application and save them in a watchlist.
+Stay up to date on the latest movies and tv series with this Flutter application and save them in a watchlist.
 The movies and tv series data is gotten from https://www.themoviedb.org/
 
 <img src="https://github.com/user-attachments/assets/93cb969b-a077-4f3e-884c-6743b9d9839e" alt="movies_home" width="300"/>
