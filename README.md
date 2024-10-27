@@ -43,5 +43,5 @@ To run this project locally, follow these steps:
 
 ## Packages in use
 [isar](https://pub.dev/packages/isar) for local database  
-[http](https://pub.dev/packages/http) for handling API keys  
+[http](https://pub.dev/packages/http) for to get API data  
 [cached_network_image](https://pub.dev/packages/cached_network_image) for caching images  
